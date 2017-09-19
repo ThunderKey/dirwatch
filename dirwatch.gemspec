@@ -4,7 +4,7 @@ require 'dirwatch/version'
 
 Gem::Specification.new do |s|
   s.name          = 'dirwatch'
-  s.version       = Dirwatch::VERSION
+  s.version       = Dirwatch::VERSION.to_s
   s.summary       = 'Watch specific files and execute commands when any of them change'
   s.authors       = ['Nicolas Ganz']
   s.email         = 'nicolas@keltec.ch'
