@@ -7,6 +7,7 @@ module Dirwatch
     end
 
     def self.from_file filename, options
+      raise "Could not find the configuration file #{filename}" unless File.exists? filename
       settings = new
       config = symbolize YAML.load_file(filename)
       watch_data = {}
