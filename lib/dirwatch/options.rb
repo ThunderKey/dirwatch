@@ -10,13 +10,7 @@ module Dirwatch
       parser = OptionParser.new do |opts|
         opts.banner = "Usage: #{$0} [options] [directory]"
 
-        opts.on('-f', '--file-match MATCH', 'The bash match for the file. Default: *.tex') do |match|
-          options.file_match = match
-        end
 
-        opts.on('-i', '--interval INTERVAL', OptionParser::DecimalNumeric, 'The number of seconds to wait unitl the next check. Default: 1') do |interval|
-          options.interval = interval
-        end
 
         opts.on('-d', '--daemonize', 'Run the programm as a daemon') do
           options.daemonize = true
@@ -41,13 +35,11 @@ module Dirwatch
       new options.to_h
     end
 
-    attr_reader :directory, :file_match, :interval, :daemonize
+    attr_reader :directory, :daemonize
 
-    def initialize directory: nil, file_match: nil, interval: nil, daemonize: nil
+    def initialize directory: nil, daemonize: nil
       raise 'The directory is required' unless directory
       @directory = directory
-      @file_match = file_match || '*.tex'
-      @interval = interval || 1
       @daemonize = !!daemonize
     end
   end
