@@ -2,12 +2,20 @@ require_relative 'settings/watch_setting'
 
 module Dirwatch
   class Settings
+    class FileNotFoundError < IOError
+      attr_reader :filename
+      def initialize filename, msg = nil
+        super msg || "Could not find the configuration file #{filename}"
+        @filename = filename
+      end
+    end
+
     def self.from_options options
       Settings.from_file(File.join(options.directory, 'dirwatch.yml'), options)
     end
 
     def self.from_file filename, options
-      raise "Could not find the configuration file #{filename}" unless File.exists? filename
+      raise FileNotFoundError, filename unless File.exists? filename
       settings = new
       config = symbolize YAML.load_file(filename)
       watch_data = {}

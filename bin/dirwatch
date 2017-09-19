@@ -1,8 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'dirwatch'
-watcher = Dirwatch::Watcher.from_args ARGV
-watcher.start
+begin
+  watcher = Dirwatch::Watcher.from_args ARGV
+  watcher.start
+rescue Dirwatch::Settings::FileNotFoundError => e
+  puts "Could not find the file #{e.filename}"
+  exit 1
+end
 
 begin
   sleep
