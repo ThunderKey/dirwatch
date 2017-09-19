@@ -10,14 +10,22 @@ module Dirwatch
       parser = OptionParser.new do |opts|
         opts.banner = "Usage: #{$0} [options] [directory]"
 
-
-
-        opts.on('-d', '--daemonize', 'Run the programm as a daemon') do
-          options.daemonize = true
+        opts.on '-v', '--[no-]verbose', 'Print additional information' do |verbose|
+          options.verbose = verbose
         end
 
-        opts.on('-h', '--help', 'Show this help') do
+        opts.on '-d', '--[no-]daemonize', 'Run the programm as a daemon' do |daemonize|
+          options.daemonize = daemonize
+        end
+
+        opts.on_tail '-h', '--help', 'Show this help' do
           puts opts
+          exit
+        end
+
+        opts.on_tail '--version', 'Show the version' do
+          require 'dirwatch/version'
+          puts "dirwatch #{Dirwatch::VERSION}"
           exit
         end
       end
@@ -37,10 +45,11 @@ module Dirwatch
 
     attr_reader :directory, :daemonize
 
-    def initialize directory: nil, daemonize: nil
+    def initialize directory:, daemonize: false, verbose: false
       raise 'The directory is required' unless directory
       @directory = directory
-      @daemonize = !!daemonize
+      @daemonize = daemonize
+      @verbose = verbose
     end
   end
 end
