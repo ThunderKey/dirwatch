@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'dirwatch'
+watcher = Dirwatch::Watcher.from_args ARGV
+watcher.start
+
+begin
+  Thread.stop
+rescue Interrupt
+ensure
+  puts "shutting down..."
+  watcher.stop
+end
