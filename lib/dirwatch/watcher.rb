@@ -9,23 +9,29 @@ module Dirwatch
     def initialize options
       @options = options
       @settings = Settings.from_options @options
+
+      if options.daemonize
+        Process.daemon true, true
+        puts "running in the background... [#{Process.pid}]"
+      end
     end
 
     def start
       raise 'already started' if @threads
-      Thread.abort_on_exception = true
       @threads = []
       @stop = false
+
+      Thread.abort_on_exception = true
       @settings.by_interval do |interval, watch_settings|
+        watch_settings.each {|ws| puts "Watching #{ws}" }
         @threads << Thread.new do
           change_times = []
           loop do
             break if @stop
             watch_settings.each.with_index do |ws, i|
-              change_time = ws.files.max_by {|f| File.ctime f }
+              change_time = ws.files.map {|f| File.ctime f }.max
               if change_time != change_times[i]
                 change_times[i] = change_time
-                puts 'exec_scripts'
                 ws.exec_scripts
               end
             end
@@ -34,11 +40,6 @@ module Dirwatch
             sleep interval
           end
         end
-      end
-      @settings.watch_settings.each {|k,ws| puts "Watching #{k}" }
-      if options.daemonize
-        puts "running in the background..."
-        Process.daemon true, true
       end
     end
 

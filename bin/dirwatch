@@ -5,7 +5,7 @@ watcher = Dirwatch::Watcher.from_args ARGV
 watcher.start
 
 begin
-  Thread.stop
+  sleep
 rescue Interrupt
 ensure
   puts "shutting down..."
