@@ -1,9 +1,7 @@
+require_relative 'settings'
+
 module Dirwatch
   class Watcher
-    def self.from_args args
-      new Options.from_args(args)
-    end
-
     attr_reader :options
 
     def initialize options

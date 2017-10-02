@@ -2,17 +2,8 @@
 
 require 'dirwatch'
 begin
-  watcher = Dirwatch::Watcher.from_args ARGV
-  watcher.start
-rescue Dirwatch::Settings::FileNotFoundError => e
+  Dirwatch.run_from_args ARGV
+rescue Dirwatch::FileNotFoundError => e
   puts "Could not find the file #{e.filename}"
   exit 1
-end
-
-begin
-  sleep
-rescue Interrupt
-ensure
-  puts "shutting down..."
-  watcher.stop
 end

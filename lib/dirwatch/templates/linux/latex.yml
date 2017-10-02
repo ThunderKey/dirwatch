@@ -1,0 +1,8 @@
+defaults:
+  interval: 1
+
+latex:
+  file_match: '*.tex'
+  script:
+    - pdflatex main.tex
+    - evince main.pdf &
