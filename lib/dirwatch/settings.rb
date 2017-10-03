@@ -1,4 +1,5 @@
 require_relative 'settings/watch_setting'
+require_relative 'symbolize_extensions'
 
 module Dirwatch
   class Settings
@@ -9,7 +10,7 @@ module Dirwatch
     def self.from_file filename, options
       raise FileNotFoundError, filename unless File.exist? filename
       settings = new
-      config = symbolize YAML.load_file(filename)
+      config = YAML.load_file(filename).symbolize_keys
       watch_data = {}
       defaults = {}
       config.each do |key, watch_setting|
@@ -46,12 +47,6 @@ module Dirwatch
 
     def by_interval &block
       @watch_settings.group_by(&:interval).each(&block)
-    end
-
-    def self.symbolize(obj)
-      return obj.inject({}){|memo,(k,v)| memo[k.to_sym] =  symbolize(v); memo} if obj.is_a? Hash
-      return obj.inject([]){|memo,v    | memo           << symbolize(v); memo} if obj.is_a? Array
-      return obj
     end
   end
 end
