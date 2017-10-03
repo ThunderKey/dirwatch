@@ -139,7 +139,7 @@ module Dirwatch
     end
 
     def method_missing m, *args, &block
-      if @options&.has_key? m
+      if @options && @options.has_key? m
         @options[m]
       else
         super
