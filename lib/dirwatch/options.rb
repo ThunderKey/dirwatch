@@ -64,7 +64,6 @@ module Dirwatch
     end
 
     def self.from_args args
-      show_help = false
       options = OpenStruct.new
       watch_command = "#{@@command_name} [options] [directory]"
       init_command = "#{@@command_name} init [options] [template]"
@@ -94,8 +93,8 @@ module Dirwatch
         end
         case method
         when :exit
-        when :watch; options.directory = args.first
-        when :init;  options.template  = args.first
+        when :watch then options.directory = args.first
+        when :init then  options.template  = args.first
         else; raise "Unknown method #{method.inspect}"
         end
       end
