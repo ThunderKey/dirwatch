@@ -14,4 +14,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.homepage      = 'https://github.com/ThunderKey/dirwatch'
   spec.license       = 'MIT'
+
+  spec.add_development_dependency 'rspec', '~> 3.0'
 end

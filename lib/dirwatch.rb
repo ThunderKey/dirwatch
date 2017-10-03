@@ -6,7 +6,8 @@ module Dirwatch
   def self.run_from_args args
     options = Options.from_args(args)
     case options.method
-    when :watch;
+    when :exit
+    when :watch
       require_relative 'dirwatch/watcher'
 
       watcher = Watcher.new options

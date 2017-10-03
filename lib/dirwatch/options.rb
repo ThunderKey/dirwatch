@@ -4,6 +4,8 @@ require_relative 'os_fetcher'
 
 module Dirwatch
   class Options
+    @@command_name = 'dirwatch'
+
     def self.build_parser cmd, options, alternatives, verbose: true, help: true, &block
       OptionParser.new do |opts|
         opts.banner = "Usage: #{cmd}"
@@ -19,7 +21,7 @@ module Dirwatch
         if help
           opts.on '-h', '--help', 'Show this help message' do
             puts opts
-            exit
+            options.exit = true
           end
         end
 
@@ -40,7 +42,7 @@ module Dirwatch
         opts.on '--version', 'Show the version' do
           require 'dirwatch/version'
           puts "dirwatch #{Dirwatch::VERSION}"
-          exit
+          options.exit = true
         end
       end
     end
@@ -64,8 +66,8 @@ module Dirwatch
     def self.from_args args
       show_help = false
       options = OpenStruct.new
-      watch_command = "#{$0} [options] [directory]"
-      init_command = "#{$0} init [options] [template]"
+      watch_command = "#{@@command_name} [options] [directory]"
+      init_command = "#{@@command_name} init [options] [template]"
 
       watch_parser = build_watch_parser watch_command, options, [init_command]
       init_parser = build_init_parser    init_command,    options, [watch_command]
@@ -81,15 +83,19 @@ module Dirwatch
       end
       parser.parse! args
 
-      unless args.empty?
+      if options.exit
+        method = :exit
+        options.delete_field :exit
+      elsif args.any?
         if args.size > 1
-          puts "Unknown arguments: #{args.join(', ')}"
+          $stderr.puts "Unknown arguments: #{args.map(&:inspect).join(', ')}"
           puts parser
-          exit
+          method = :exit
         end
         case method
+        when :exit
         when :watch; options.directory = args.first
-        when :init;    options.template  = args.first
+        when :init;  options.template  = args.first
         else; raise "Unknown method #{method.inspect}"
         end
       end
@@ -102,6 +108,8 @@ module Dirwatch
     def initialize method, directory: nil, daemonize: false, verbose: false, list: false, operating_system: nil, template: nil, force: false
       @method = method.to_sym
       @options = case @method
+      when :exit
+        {}
       when :watch
         {
           directory: directory || './',
