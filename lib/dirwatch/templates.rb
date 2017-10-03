@@ -20,7 +20,7 @@ module Dirwatch
 
     def self.list operating_system:, verbose:
       puts "All available templates:"
-      templates.each do |template, data|
+      templates(verbose: verbose).each do |template, data|
         os = data[:operating_systems]
         os_strings = os.map {|o| o == operating_system ? o.to_s.bold : o.to_s }
         puts "  #{os.include?(operating_system) ? template.bold : template} (#{os_strings.join(', ')})"
@@ -29,12 +29,15 @@ module Dirwatch
 
     private
 
-    def self.templates
+    def self.templates verbose: false
       templates = {}
       OsFetcher.available.each do |os|
-        Dir[File.join TEMPLATES_DIR, os.to_s, '*.yml'].each do |template|
+        file_matcher = File.join TEMPLATES_DIR, os.to_s, '*.yml'
+        puts "  Searching files: #{file_matcher}" if verbose
+        Dir[file_matcher].each do |template|
           filename = File.basename template
-          name = filename.gsub /\.yml$/, ''
+          name = filename.gsub(/\.yml$/, '')
+          puts "    Found: #{template} (#{name})" if verbose
           (templates[name] ||= {
             filename: filename,
             operating_systems: [],
