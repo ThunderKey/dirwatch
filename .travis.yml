@@ -1,17 +1,17 @@
 language: ruby
 os:
-  - linux
-  - osx
+- linux
+- osx
 rvm:
-  - ruby-2.3.1
+- ruby-2.3.1
 dist: trusty
-addons:
-  code_climate:
-    repo_token: eFu2OmkoqolDXfDSKwfyC2hPqx49cJe9W2WWFFe7vwkFSrOB07MVrRZHNzTly3tqElF8gV4/thKXJv/keqB8qDHwbBuMMMdcSyuePVPzMtDyGuyvfjmMmX8Dxs29QV26fOqV8E7Ar6ugmJdI3Yy1c0qtPWAMAr3W77jbXG6XzUkEw3FiYOkKEeakXAUr+4/MfZ8Do0HbOsp3AFc58j9UpY2VTTDuHELAwjulSrRtnlwmW2yFJ677XanRNlK4xZBfqvaXMZpqU3I3bh8q7s+dLsgrlkRT0uf1kOYsCenPaAcW6+4Q7+JieYIZ72BXWHC0dBKyZo23n41/IW84nQkirgW/nddkuxogNqPxhv/o9Dd99xuvQilTq+fMKZxBTOTl4DW1lJ+2cBfHycj72x1A4oYBGrvbmZvOIUu8eNOtHaOrWTHxGa1/JDdNyGaWJ6Od7Dsfrc+h/kx/DH3N9OyEt6IozVkN9fBEQqUkSnwlH/2Ol83DVygrhtGTO++uLWNFhh0Ag2FNf+PpowoLg60vZ4UJFcjIE26NXAh9VID65k/TjcTMS/kc3ckWciBN/rN6GxrOwpnS7tFHnVQhAJ+F26j8/28CAb57+BMPtaIEw8k2GD4vjn10gv8n4FUp3GMpfbrIcMRjgaeu+ozJYWqQmE3NXedv9F6tTrCxfVEnPzQ=
 script:
-  - bundle exec rspec
+- bundle exec rspec
 after_script:
-  - bundle exec codeclimate-test-reporter
+- bundle exec codeclimate-test-reporter
 notifications:
   email:
-    - nicolasganz37+travis@gmail.com
+  - nicolasganz37+travis@gmail.com
+env:
+  global:
+    secure: YKlnKnoP60fsjOB8GSaJ0LQ25BgW3wtMs0inBmiAJQox5e0qGvwLfpnrOdsef3ICP9XS93qKF5SjZMYfvuV+cVysXLZi94nkGMpOl8gM2xni1BFcUKCCUf9TDTrXG2QFvRglI7DRDMjgsRQfUl51/hMUfJAkvv5dESJQWPNstGOadswtVZfPchEKbGnTXClugIrp6OABqcRQzSYnF9FWf0bem9c1b/tFJZY5amFJ0INVe03LohtVJBq+psjPfRDPw87JgYTp/lWSsPEW6ZFJLgU7BeJEzDoiNr9yZIpntwlK1o/Oc5fLWR5xrJTVqKbO1skfYHSorLlOSyAERZcNq3NczroOzjvfdf+1tMzeu7N6t7cTsUbcf7LbHeIGDPTFY5L7Aywh2MN/q968UErYjtmmSABbFpddBumBZIFpVSvLl66m3XmfJOXdehUqlFymm0rRO6yH8VnLjanOsdWF6P4myNoFNQeVEMHfjvkXE3VxHb3XAkgMFVKv8eXNUs/D+31eo2+JnCnHBh11m9am+2nmByj7188ExSV61+zMYtXVM036eSfd1VhIXDIsS6/iX0Ecvd1m6oDLJWksr8/gl+/s8DPF1OfEsHb0idwfScGdou4Jn8FYAyD6+EwgajmTR1pE3Y2DiJHiLr9Fc514sMNtf9QBsGLbmDIz+1SYVvA=
