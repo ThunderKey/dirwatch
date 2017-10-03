@@ -16,9 +16,9 @@ module Dirwatch
 
         puts "creating #{template}"
 
-        source = File.join TEMPLATES_DIR, operating_system.to_s, template_data[:filename]
-        target = File.join '.', 'dirwatch.yml'
-        copy_file source, target, force: force, verbose: verbose
+        copy_file File.join(TEMPLATES_DIR, operating_system.to_s, template_data[:filename]),
+          File.join('.', 'dirwatch.yml'),
+          force: force, verbose: verbose
       end
 
       def list operating_system:, verbose:
@@ -53,21 +53,29 @@ module Dirwatch
 
       def copy_file source_file, target_file, force: false, verbose: false
         if File.exist? target_file
-          if File.read(target_file) == File.read(source_file)
-            puts "  #{'keep'.ljust(15)} #{target_file}"
-          else
-            print_diff source_file, target_file if verbose
-            if force
-              FileUtils.cp source_file, target_file
-              puts "  #{'overwrite'.ljust(15).red} #{target_file}"
-            else
-              puts "  #{'already exists'.ljust(15).red} #{target_file}"
-            end
-          end
+          update_file source_file, target_file, force: force, verbose: verbose
         else
-          FileUtils.cp source_file, target_file
-          puts "  #{'created'.ljust(15).green} #{target_file}"
+          create_file source_file, target_file
         end
+      end
+
+      def update_file source_file, target_file, force: false, verbose: false
+        if File.read(target_file) == File.read(source_file)
+          puts "  #{'keep'.ljust(15)} #{target_file}"
+        else
+          print_diff source_file, target_file if verbose
+          if force
+            FileUtils.cp source_file, target_file
+            puts "  #{'overwrite'.ljust(15).red} #{target_file}"
+          else
+            puts "  #{'already exists'.ljust(15).red} #{target_file}"
+          end
+        end
+      end
+
+      def create_file source_file, target_file
+        FileUtils.cp source_file, target_file
+        puts "  #{'created'.ljust(15).green} #{target_file}"
       end
 
       def print_diff source_file, target_file
@@ -82,10 +90,9 @@ module Dirwatch
       end
 
       def silence_mkmf
-        unless MakeMakefile::Logging.quiet
-          MakeMakefile::Logging.quiet = true
-          MakeMakefile::Logging.logfile File::NULL
-        end
+        return if MakeMakefile::Logging.quiet
+        MakeMakefile::Logging.quiet = true
+        MakeMakefile::Logging.logfile File::NULL
       end
     end
   end
