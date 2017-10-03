@@ -1,41 +1,35 @@
+require 'rbconfig'
+
 module Dirwatch
   module OsFetcher
-    @@available = [
+    AVAILABLE = [
       WINDOWS = :windows,
-      MAC = :mac,
-      LINUX = :linux,
-    ]
+      MAC     = :mac,
+      LINUX   = :linux,
+    ].freeze
 
-    def self.available
-      @@available
-    end
-
-    def self.fetch
-      if windows?
-        WINDOWS
-      elsif mac?
-        MAC
-      elsif linux?
-        LINUX
-      else
-        raise "Unknown operating system: #{RUBY_PLATFORM}"
+    class << self
+      def operating_system
+        host_os = RbConfig::CONFIG['host_os']
+        case host_os
+        when /mswin|msys|mingw|cygwin|bccwin|wince|emc|win32|dos/
+          WINDOWS
+        when /darwin|mac os/
+          MAC
+        when /linux/
+          LINUX
+        else
+          raise OsNotSupportedError.new host_os, AVAILABLE
+        end
       end
-    end
 
-    def self.windows?
-      /cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM
-    end
+      alias fetch operating_system
 
-    def self.mac?
-      /darwin/ =~ RUBY_PLATFORM
-    end
-
-    def self.unix?
-      !windows?
-    end
-
-    def self.linux?
-      unix? and !mac?
+      AVAILABLE.each do |os|
+        define_method("#{os}?") do
+          operating_system == os
+        end
+      end
     end
   end
 end

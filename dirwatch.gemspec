@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Watch specific files and execute commands when any of them change'
   spec.authors       = ['Nicolas Ganz']
   spec.email         = 'nicolas@keltec.ch'
-  spec.files         = Dir["{lib,vendor}/**/*"] + ["LICENSE", "README.md"]
+  spec.files         = Dir['{lib,vendor}/**/*'] + ['LICENSE', 'README.md']
   spec.bindir        = 'bin'
-  spec.executables   = Dir["bin/*"].map {|f| File.basename f }
+  spec.executables   = Dir['bin/*'].map {|f| File.basename f }
   spec.require_paths = ['lib']
   spec.homepage      = 'https://github.com/ThunderKey/dirwatch'
   spec.license       = 'MIT'

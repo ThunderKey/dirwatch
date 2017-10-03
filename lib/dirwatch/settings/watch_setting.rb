@@ -1,3 +1,5 @@
+require 'English' # for CHILD_STATUS
+
 module Dirwatch
   class Settings
     class WatchSetting
@@ -23,14 +25,17 @@ module Dirwatch
           if script =~ / & *\z/
             system script
           else
-            output = %x(#{script})
-            raise "The command \"#{script}\" failed with: #{output}" if $? != 0
+            output = `#{script}`
+            unless $CHILD_STATUS.successful?
+              raise "The command \"#{script}\" failed with: #{output}"
+            end
           end
         end
       end
 
       def to_s
-        "#<#{self.class} files_path=#{files_path} interval=#{interval.inspect} scripts=#{scripts.inspect}>"
+        variables = [:files_path, :interval, :scripts].map {|v| "#{v}=#{send(v).inspect}" }
+        "#<#{self.class} #{variables.join ' '}>"
       end
 
       private
@@ -54,7 +59,7 @@ module Dirwatch
         if scripts.is_a? String
           scripts = [scripts]
         elsif !scripts.is_a?(Array) || scripts.any? {|s| !s.is_a? String }
-          raise "the scripts need to be either one string or a list of strings. Not: #{scripts.inspect}"
+          raise "Script needs to be a string or a list of strings: #{scripts.inspect}"
         end
         @scripts = scripts
       end

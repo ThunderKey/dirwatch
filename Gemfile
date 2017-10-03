@@ -7,7 +7,6 @@ end
 
 group :test do
   gem 'rubocop', '0.46.0', require: false
-  gem 'simplecov'
   gem 'codeclimate-test-reporter', '~> 1.0.0'
 end
 

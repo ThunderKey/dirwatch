@@ -12,16 +12,16 @@ module Dirwatch
         template_data = templates[template]
         raise TemplateNotFoundError, template if template_data.nil?
         os = template_data[:operating_systems]
-        raise OsNotSupportedError, operating_systems, os unless os.include? operating_system
+        raise OsNotSupportedError.new operating_systems, os unless os.include? operating_system
 
         puts "creating #{template}"
 
-        copy_file File.join(TEMPLATES_DIR, operating_system.to_s, template_data[:filename]),
-          File.join('.', 'dirwatch.yml'),
+        copy_file template_path(operating_system, template_data[:filename]), 'dirwatch.yml',
           force: force, verbose: verbose
       end
 
       def list operating_system:, verbose:
+        puts "Operating system: #{operating_system}" if verbose
         puts 'All available templates:'
         templates(verbose: verbose).each do |template, data|
           os = data[:operating_systems]
@@ -33,9 +33,13 @@ module Dirwatch
 
       private
 
+      def template_path operating_system, filename
+        File.join TEMPLATES_DIR, operating_system.to_s, filename
+      end
+
       def templates verbose: false
         templates = {}
-        OsFetcher.available.each do |os|
+        OsFetcher::AVAILABLE.each do |os|
           file_matcher = File.join TEMPLATES_DIR, os.to_s, '*.yml'
           puts "  Searching files: #{file_matcher}" if verbose
           Dir[file_matcher].each do |template|

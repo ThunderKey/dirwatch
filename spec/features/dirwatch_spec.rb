@@ -1,4 +1,8 @@
 RSpec.describe 'dirwatch' do
+  def run *args
+    Dirwatch.run_from_args args
+  end
+
   context 'prints a help message' do
     let(:help_message) { <<-EOT }
 Usage: dirwatch [options] [directory]
@@ -12,11 +16,16 @@ Other Methods:
 EOT
 
     it 'with --help' do
-      expect { expect { Dirwatch.run_from_args(['--help']) }.to output(help_message).to_stdout }.to_not output.to_stderr
+      expect { run '--help' }.to output(help_message).to_stdout
+        .and not_output.to_stderr
     end
 
     it 'too many arguments' do
-      expect { expect { Dirwatch.run_from_args(['arg1', 'arg2']) }.to output(help_message).to_stdout }.to output(%Q{Unknown arguments: "arg1", "arg2"\n}).to_stderr
+      expect { run 'arg1', 'arg2' }.to output(help_message).to_stdout
+        .and output(<<-EOT).to_stderr
+Unknown arguments: "arg1", "arg2"
+Allowed optional arguments: 1
+EOT
     end
   end
 end

@@ -1,4 +1,8 @@
 RSpec.describe 'dirwatch init' do
+  def run *args
+    Dirwatch.run_from_args ['init', *args]
+  end
+
   context 'prints a help message' do
     let(:help_message) { <<-EOT }
 Usage: dirwatch init [options] [template]
@@ -13,17 +17,22 @@ Other Methods:
 EOT
 
     it 'with --help' do
-      expect { expect { Dirwatch.run_from_args(['init', '--help']) }.to output(help_message).to_stdout }.to_not output.to_stderr
+      expect { run '--help' }.to output(help_message).to_stdout
+        .and not_output.to_stderr
     end
 
     it 'too many arguments' do
-      expect { expect { Dirwatch.run_from_args(['init', 'arg1', 'arg2']) }.to output(help_message).to_stdout }.to output(%Q{Unknown arguments: "arg1", "arg2"\n}).to_stderr
+      expect { run 'arg1', 'arg2' }.to output(help_message).to_stdout
+        .and output(<<-EOT).to_stderr
+Unknown arguments: "arg1", "arg2"
+Allowed optional arguments: 1
+EOT
     end
   end
 
   context 'available templates' do
     it 'lists the templates' do
-      expect { expect { Dirwatch.run_from_args(['init', '--list']) }.to output(<<-EOT).to_stdout }.to_not output.to_stderr
+      expect { run '--list' }.to output(<<-EOT).to_stdout.and not_output.to_stderr
 All available templates:
   \033[1mlatex\033[0m (mac, \033[1mlinux\033[0m)
 EOT
@@ -31,6 +40,7 @@ EOT
 
     it 'lists the templates verbosely' do
       list_message = <<-EOT
+Operating system: linux
 All available templates:
   Searching files: #{RSpec.root}/lib/dirwatch/templates/windows/*.yml
   Searching files: #{RSpec.root}/lib/dirwatch/templates/mac/*.yml
@@ -39,8 +49,10 @@ All available templates:
     Found: #{RSpec.root}/lib/dirwatch/templates/linux/latex.yml (latex)
   \033[1mlatex\033[0m (mac, \033[1mlinux\033[0m)
 EOT
-      expect { expect { Dirwatch.run_from_args(['init', '--list', '--verbose']) }.to output(list_message).to_stdout }.to_not output.to_stderr
-      expect { expect { Dirwatch.run_from_args(['init', '--list', '-v']) }.to output(list_message).to_stdout }.to_not output.to_stderr
+      expect { run '--list', '--verbose' }.to output(list_message).to_stdout
+        .and not_output.to_stderr
+      expect { run '--list', '-v' }.to output(list_message).to_stdout
+        .and not_output.to_stderr
     end
   end
 end

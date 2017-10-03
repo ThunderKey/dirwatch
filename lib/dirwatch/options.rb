@@ -1,135 +1,24 @@
-require 'optparse'
-require 'ostruct'
 require_relative 'os_fetcher'
+require_relative 'options/parser'
 
 module Dirwatch
   class Options
-    @@command_name = 'dirwatch'
-
-    def self.build_parser cmd, options, alternatives, show_verbose: true, show_help: true, &block
-      OptionParser.new do |opts|
-        opts.banner = "Usage: #{cmd}"
-
-        if show_verbose
-          opts.on '-v', '--[no-]verbose', 'Print additional information' do |verbose|
-            options.verbose = verbose
-          end
-        end
-
-        block.call opts
-
-        if show_help
-          opts.on '-h', '--help', 'Show this help message' do
-            puts opts
-            options.exit = true
-          end
-        end
-
-        if alternatives.any?
-          opts.separator ''
-          opts.separator 'Other Methods:'
-          alternatives.each {|a| opts.separator "    #{a}" }
-        end
-      end
-    end
-
-    def self.build_watch_parser cmd, options, alternatives
-      build_parser(cmd, options, alternatives) do |opts|
-        opts.on '-d', '--[no-]daemonize', 'Run the programm as a daemon' do |daemonize|
-          options.daemonize = daemonize
-        end
-
-        opts.on '--version', 'Show the version' do
-          require 'dirwatch/version'
-          puts "dirwatch #{Dirwatch::VERSION}"
-          options.exit = true
-        end
-      end
-    end
-
-    def self.build_init_parser cmd, options, alternatives
-      build_parser(cmd, options, alternatives) do |opts|
-        opts.on '-l', '--[no-]list', 'List all available templates' do |list|
-          options.list = list
-        end
-
-        opts.on '-f', '--[no-]force', 'Overwrite the dirwatch.yml if it already exists' do |force|
-          options.force = force
-        end
-
-        opts.on '--os OS', [:windows, :linux, :mac], 'Set the operating system to use. Otherwise it tries to detect it.' do |operating_system|
-          options.operating_system = operating_system
-        end
-      end
-    end
-
     def self.from_args args
-      options = OpenStruct.new
-      watch_command = "#{@@command_name} [options] [directory]"
-      init_command = "#{@@command_name} init [options] [template]"
-
-      watch_parser = build_watch_parser watch_command, options, [init_command]
-      init_parser = build_init_parser    init_command,    options, [watch_command]
-
-      method = nil
-      parser = if args.first == 'init'
-        args.shift
-        method = :init
-        init_parser
-      else
-        method = :watch
-        watch_parser
-      end
+      parser = Parser.from_args args
       parser.parse! args
 
-      if options.exit
-        method = :exit
-        options.delete_field :exit
-      elsif args.any?
-        if args.size > 1
-          $stderr.puts "Unknown arguments: #{args.map(&:inspect).join(', ')}"
-          puts parser
-          method = :exit
-        end
-        case method
-        when :exit
-        when :watch then options.directory = args.first
-        when :init then  options.template  = args.first
-        else; raise "Unknown method #{method.inspect}"
-        end
-      end
-
-      new method, options.to_h
+      new parser.method, parser.options.to_h
     end
 
     attr_reader :method, :options
 
-    def initialize method, directory: nil, daemonize: false, verbose: false, list: false, operating_system: nil, template: nil, force: false
+    def initialize method, options
       @method = method.to_sym
       @options = case @method
-      when :exit
-        {}
-      when :watch
-        {
-          directory: directory || './',
-          daemonize: daemonize,
-          verbose:   verbose,
-        }
-      when :init
-        opts = {
-          template:         template,
-          list:             list,
-          operating_system: operating_system || OsFetcher.fetch,
-          verbose:          verbose,
-          force:            force,
-        }
-        if list
-          opts.delete :template
-          opts.delete :force
-        end
-        opts
-      else
-        raise "Unknown method #{method.inspect}"
+      when :exit then {}
+      when :watch then watch_options options
+      when :init then init_options options
+      else raise "Unknown method #{method.inspect}"
       end
     end
 
@@ -138,8 +27,41 @@ module Dirwatch
     end
 
     def method_missing m, *args, &block
-      return @options[m] if @options && @options.has_key?(m)
+      return @options[m] if @options && @options.key?(m)
       super
+    end
+
+    def respond_to_missing? m
+      (@options && @options.key?(m)) || super
+    end
+
+    private
+
+    def exit_options
+      {}
+    end
+
+    def watch_options options
+      {
+        directory: options.fetch(:directory, './'),
+        daemonize: options.fetch(:daemonize, false),
+        verbose:   options.fetch(:verbose, false),
+      }
+    end
+
+    def init_options options
+      opts = {
+        template:         options.fetch(:template, nil),
+        list:             options.fetch(:list, false),
+        operating_system: options.fetch(:operating_system, OsFetcher.fetch),
+        verbose:          options.fetch(:verbose, false),
+        force:            options.fetch(:force, false),
+      }
+      if opts[:list]
+        opts.delete :template
+        opts.delete :force
+      end
+      opts
     end
   end
 end
