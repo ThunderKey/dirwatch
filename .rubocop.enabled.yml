@@ -72,11 +72,6 @@ Style/BarePercentLiterals:
   StyleGuide: '#percent-q-shorthand'
   Enabled: true
 
-Style/BlockComments:
-  Description: 'Do not use block comments.'
-  StyleGuide: '#no-block-comments'
-  Enabled: true
-
 Style/BlockEndNewline:
   Description: 'Put end statement of multiline block on its own line.'
   Enabled: true
@@ -172,13 +167,6 @@ Style/DefWithParentheses:
   Description: 'Use def with parentheses when there are arguments.'
   StyleGuide: '#method-parens'
   Enabled: true
-
-Style/Documentation:
-  Description: 'Document classes and non-namespace modules.'
-  Enabled: true
-  Exclude:
-    - 'spec/**/*'
-    - 'test/**/*'
 
 Style/DotPosition:
   Description: 'Checks the position of the dot in multi-line method calls.'

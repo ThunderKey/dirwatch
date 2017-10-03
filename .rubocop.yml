@@ -179,7 +179,7 @@ Style/AlignParameters:
   #
   #     method_call(a,
   #       b)
-  EnforcedStyle: with_first_parameter
+  EnforcedStyle: with_fixed_indentation
   SupportedStyles:
     - with_first_parameter
     - with_fixed_indentation
@@ -564,7 +564,7 @@ Style/HashSyntax:
   PreferHashRocketsForNonAlnumEndingSymbols: false
 
 Style/IfUnlessModifier:
-  MaxLineLength: 80
+  MaxLineLength: 100
 
 Style/IndentationConsistency:
   # The difference between `rails` and `normal` is that the `rails` style
@@ -683,7 +683,7 @@ Style/NumericPredicate:
     - 'spec/**/*'
 
 Style/MethodDefParentheses:
-  EnforcedStyle: require_parentheses
+  EnforcedStyle: require_no_parentheses_except_multiline
   SupportedStyles:
     - require_parentheses
     - require_no_parentheses
@@ -972,7 +972,7 @@ Style/SpaceInsideBlockBraces:
   # Valid values are: space, no_space
   EnforcedStyleForEmptyBraces: no_space
   # Space between { and |. Overrides EnforcedStyle if there is a conflict.
-  SpaceBeforeBlockParameters: true
+  SpaceBeforeBlockParameters: false
 
 Style/SpaceInsideHashLiteralBraces:
   EnforcedStyle: space
@@ -1022,7 +1022,7 @@ Style/TrailingCommaInArguments:
   # parenthesized method calls where each argument is on its own line.
   # If `consistent_comma`, the cop requires a comma after the last argument,
   # for all parenthesized method calls with arguments.
-  EnforcedStyleForMultiline: no_comma
+  EnforcedStyleForMultiline: comma
   SupportedStyles:
     - comma
     - consistent_comma
@@ -1033,7 +1033,7 @@ Style/TrailingCommaInLiteral:
   # hash, but only when each item is on its own line.
   # If `consistent_comma`, the cop requires a comma after the last item of all
   # non-empty array and hash literals.
-  EnforcedStyleForMultiline: no_comma
+  EnforcedStyleForMultiline: comma
   SupportedStyles:
     - comma
     - consistent_comma
@@ -1095,7 +1095,7 @@ Style/VariableNumber:
     - non_integer
 
 Style/WhileUntilModifier:
-  MaxLineLength: 80
+  MaxLineLength: 100
 
 # WordArray enforces how array literals of word-like strings should be expressed.
 Style/WordArray:
@@ -1135,7 +1135,7 @@ Metrics/CyclomaticComplexity:
   Max: 6
 
 Metrics/LineLength:
-  Max: 80
+  Max: 100
   # To make it possible to copy or click on URIs in the code, we allow lines
   # containing a URI to be longer than Max.
   AllowHeredoc: true
@@ -1153,7 +1153,7 @@ Metrics/LineLength:
 
 Metrics/MethodLength:
   CountComments: false  # count full line comments?
-  Max: 10
+  Max: 15
 
 Metrics/BlockLength:
   CountComments: false  # count full line comments?

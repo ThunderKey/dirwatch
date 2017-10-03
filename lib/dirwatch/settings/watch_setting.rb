@@ -54,7 +54,7 @@ module Dirwatch
         if scripts.is_a? String
           scripts = [scripts]
         elsif !scripts.is_a?(Array) || scripts.any? {|s| !s.is_a? String }
-          raise "the scripts need to be either one string or a list of strings. Not: #{scripts.insepct}"
+          raise "the scripts need to be either one string or a list of strings. Not: #{scripts.inspect}"
         end
         @scripts = scripts
       end
