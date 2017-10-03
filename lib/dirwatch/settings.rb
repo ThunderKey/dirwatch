@@ -7,7 +7,7 @@ module Dirwatch
     end
 
     def self.from_file filename, options
-      raise FileNotFoundError, filename unless File.exists? filename
+      raise FileNotFoundError, filename unless File.exist? filename
       settings = new
       config = symbolize YAML.load_file(filename)
       watch_data = {}
@@ -19,7 +19,7 @@ module Dirwatch
           watch_data[key] = watch_setting
         end
       end
-      watch_data.each do |key, watch_setting|
+      watch_data.each do |_key, watch_setting|
         settings << WatchSetting.new(
           directory:  options.directory,
           file_match: watch_setting[:file_match] || defaults[:file_match],
@@ -47,8 +47,6 @@ module Dirwatch
     def by_interval &block
       @watch_settings.group_by(&:interval).each(&block)
     end
-
-    private
 
     def self.symbolize(obj)
       return obj.inject({}){|memo,(k,v)| memo[k.to_sym] =  symbolize(v); memo} if obj.is_a? Hash

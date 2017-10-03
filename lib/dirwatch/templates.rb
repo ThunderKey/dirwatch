@@ -48,7 +48,7 @@ module Dirwatch
     end
 
     def self.copy_file source_file, target_file, force: false, verbose: false
-      if File.exists? target_file
+      if File.exist? target_file
         if File.read(target_file) == File.read(source_file)
           puts "  #{'keep'.ljust(15)} #{target_file}"
         else
