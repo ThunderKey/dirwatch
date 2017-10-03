@@ -2,8 +2,13 @@ language: ruby
 rvm:
   - ruby-2.4.0
 dist: trusty
+addons:
+  code_climate:
+    repo_token: f2e811ad185dccece8e12d4fe764491c1ec52710846ff2c2dd308b280379218e
 script:
   - bundle exec rspec
+after_script:
+  - bundle exec codeclimate-test-reporter
 notifications:
   email:
     - nicolasganz37+travis@gmail.com

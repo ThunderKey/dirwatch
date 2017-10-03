@@ -14,7 +14,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-ROOT_DIR = File.dirname File.dirname(__FILE__)
+require 'simplecov'
 
 require_relative '../lib/dirwatch'
 
