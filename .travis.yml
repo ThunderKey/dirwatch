@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - ruby-2.4.0
+dist: trusty
+script:
+  - bundle exec rspec
+notifications:
+  email:
+    - nicolasganz37+travis@gmail.com
