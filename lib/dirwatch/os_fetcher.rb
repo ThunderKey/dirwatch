@@ -10,7 +10,6 @@ module Dirwatch
 
     class << self
       def operating_system
-        host_os = RbConfig::CONFIG['host_os']
         case host_os
         when /mswin|msys|mingw|cygwin|bccwin|wince|emc|win32|dos/
           WINDOWS
@@ -29,6 +28,12 @@ module Dirwatch
         define_method("#{os}?") do
           operating_system == os
         end
+      end
+
+      private
+
+      def host_os
+        RbConfig::CONFIG['host_os']
       end
     end
   end

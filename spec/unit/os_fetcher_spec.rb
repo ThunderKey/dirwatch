@@ -48,10 +48,6 @@ RSpec.shared_examples "an unknown matcher" do |os|
 end
 
 RSpec.describe Dirwatch::OsFetcher do
-  def stub_host_os os
-    allow(RbConfig::CONFIG).to receive(:[]).with('host_os').and_return os
-  end
-
   if actual_host_os = ENV['TRAVIS_OS_NAME']
     puts "Testing the actual operating system #{actual_host_os.inspect}"
     case actual_host_os
