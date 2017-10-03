@@ -6,11 +6,11 @@ module Dirwatch
   class Options
     @@command_name = 'dirwatch'
 
-    def self.build_parser cmd, options, alternatives, verbose: true, help: true, &block
+    def self.build_parser cmd, options, alternatives, show_verbose: true, show_help: true, &block
       OptionParser.new do |opts|
         opts.banner = "Usage: #{cmd}"
 
-        if verbose
+        if show_verbose
           opts.on '-v', '--[no-]verbose', 'Print additional information' do |verbose|
             options.verbose = verbose
           end
@@ -18,7 +18,7 @@ module Dirwatch
 
         block.call opts
 
-        if help
+        if show_help
           opts.on '-h', '--help', 'Show this help message' do
             puts opts
             options.exit = true
