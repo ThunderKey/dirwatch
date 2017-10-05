@@ -12,7 +12,7 @@ module Dirwatch
         template_data = templates[template]
         raise TemplateNotFoundError, template if template_data.nil?
         os = template_data[:operating_systems]
-        raise OsNotSupportedError.new operating_systems, os unless os.include? operating_system
+        raise OsNotSupportedError.new operating_system, os unless os.include? operating_system
 
         puts "creating #{template}"
 

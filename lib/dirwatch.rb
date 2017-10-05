@@ -11,8 +11,7 @@ module Dirwatch
 
     private
 
-    def run_exit options
-    end
+    def run_exit options; end
 
     def run_watch options
       require_relative 'dirwatch/watcher'

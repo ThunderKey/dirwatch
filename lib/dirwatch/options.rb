@@ -32,7 +32,7 @@ module Dirwatch
 
     private
 
-    def exit_options options
+    def exit_options _options
       {}
     end
 
