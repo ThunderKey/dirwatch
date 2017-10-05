@@ -3,7 +3,7 @@ RSpec.describe 'dirwatch init --help' do
 Usage: dirwatch init [options] [template]
     -v, --[no-]verbose               Print additional information
     -l, --[no-]list                  List all available templates
-    -f, --[no-]force                 Overwrite the .dirwatch.yml if it already exists
+    -f, --[no-]force                 Overwrite the .dirwatch.yml if it exists
         --os OS                      Set the operating system to use. Otherwise it tries to detect it.
     -h, --help                       Show this help message
 
