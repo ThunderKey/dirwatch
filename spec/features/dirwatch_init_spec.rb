@@ -34,6 +34,11 @@ EOT
         .and not_output.to_stderr
     end
 
+    it 'with -h' do
+      expect { run '-h' }.to output(help_message).to_stdout
+        .and not_output.to_stderr
+    end
+
     it 'too many arguments' do
       expect { run 'arg1', 'arg2' }.to output(help_message).to_stdout
         .and output(<<-EOT).to_stderr
