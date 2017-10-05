@@ -16,7 +16,7 @@ module Dirwatch
 
         puts "creating #{template}"
 
-        copy_file template_path(operating_system, template_data[:filename]), 'dirwatch.yml',
+        copy_file template_path(operating_system, template_data[:filename]), '.dirwatch.yml',
           force: force, verbose: verbose
       end
 

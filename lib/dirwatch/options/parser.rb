@@ -130,7 +130,7 @@ module Dirwatch
             options.list = list
           end
 
-          opts.on '-f', '--[no-]force', 'Overwrite the dirwatch.yml if it already exists' do |force|
+          opts.on '-f', '--[no-]force', 'Overwrite the .dirwatch.yml if it already exists' do |force|
             options.force = force
           end
 

@@ -4,7 +4,7 @@ require_relative 'symbolize_extensions'
 module Dirwatch
   class Settings
     def self.from_options options
-      Settings.from_file(File.join(options.directory, 'dirwatch.yml'), options)
+      Settings.from_file(File.join(options.directory, '.dirwatch.yml'), options)
     end
 
     def self.from_file filename, options
