@@ -6,21 +6,15 @@ module Dirwatch
   class << self
     def run_from_args args
       options = Options.from_args(args)
-      case options.method
-      when :exit
-        return
-      when :watch
-        watch options
-      when :init
-        init options
-      else
-        raise "Undefined method #{options.method}"
-      end
+      send "run_#{options.method}", options
     end
 
     private
 
-    def watch options
+    def run_exit options
+    end
+
+    def run_watch options
       require_relative 'dirwatch/watcher'
 
       watcher = Watcher.new options
@@ -36,7 +30,7 @@ module Dirwatch
       end
     end
 
-    def init options
+    def run_init options
       require_relative 'dirwatch/templates'
 
       hash = options.to_h

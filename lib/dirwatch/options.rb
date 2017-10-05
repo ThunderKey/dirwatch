@@ -14,12 +14,7 @@ module Dirwatch
 
     def initialize method, options
       @method = method.to_sym
-      @options = case @method
-      when :exit then {}
-      when :watch then watch_options options
-      when :init then init_options options
-      else raise "Unknown method #{method.inspect}"
-      end
+      @options = send "#{@method}_options", options
     end
 
     def to_h
@@ -37,7 +32,7 @@ module Dirwatch
 
     private
 
-    def exit_options
+    def exit_options options
       {}
     end
 
