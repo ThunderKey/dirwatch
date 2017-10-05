@@ -1029,11 +1029,6 @@ Lint/AmbiguousRegexpLiteral:
                  a method invocation without parentheses.
   Enabled: true
 
-Lint/AssignmentInCondition:
-  Description: "Don't use assignment in conditions."
-  StyleGuide: '#safe-assignment-in-condition'
-  Enabled: true
-
 Lint/BlockAlignment:
   Description: 'Align block ends correctly.'
   Enabled: true

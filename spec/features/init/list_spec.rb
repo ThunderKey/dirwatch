@@ -16,17 +16,18 @@ RSpec.describe 'dirwatch init --list' do
     before { stub_host_os :linux }
     small = <<-EOT
 All available templates:
-  \033[1mlatex\033[0m (mac, \033[1mlinux\033[0m)
+  \033[1mlatex\033[0m (\033[1mlinux\033[0m, mac, windows)
 EOT
     large = <<-EOT
 Operating system: linux
 All available templates:
-  Searching files: #{RSpec.root}/lib/dirwatch/templates/windows/*.yml
-  Searching files: #{RSpec.root}/lib/dirwatch/templates/mac/*.yml
-    Found: #{RSpec.root}/lib/dirwatch/templates/mac/latex.yml (latex)
   Searching files: #{RSpec.root}/lib/dirwatch/templates/linux/*.yml
     Found: #{RSpec.root}/lib/dirwatch/templates/linux/latex.yml (latex)
-  \033[1mlatex\033[0m (mac, \033[1mlinux\033[0m)
+  Searching files: #{RSpec.root}/lib/dirwatch/templates/mac/*.yml
+    Found: #{RSpec.root}/lib/dirwatch/templates/mac/latex.yml (latex)
+  Searching files: #{RSpec.root}/lib/dirwatch/templates/windows/*.yml
+    Found: #{RSpec.root}/lib/dirwatch/templates/windows/latex.yml (latex)
+  \033[1mlatex\033[0m (\033[1mlinux\033[0m, mac, windows)
 EOT
     it_behaves_like 'os specific list', small, large
   end
@@ -35,17 +36,18 @@ EOT
     before { stub_host_os :mac }
     small = <<-EOT
 All available templates:
-  \033[1mlatex\033[0m (\033[1mmac\033[0m, linux)
+  \033[1mlatex\033[0m (linux, \033[1mmac\033[0m, windows)
 EOT
     large = <<-EOT
 Operating system: mac
 All available templates:
-  Searching files: #{RSpec.root}/lib/dirwatch/templates/windows/*.yml
-  Searching files: #{RSpec.root}/lib/dirwatch/templates/mac/*.yml
-    Found: #{RSpec.root}/lib/dirwatch/templates/mac/latex.yml (latex)
   Searching files: #{RSpec.root}/lib/dirwatch/templates/linux/*.yml
     Found: #{RSpec.root}/lib/dirwatch/templates/linux/latex.yml (latex)
-  \033[1mlatex\033[0m (\033[1mmac\033[0m, linux)
+  Searching files: #{RSpec.root}/lib/dirwatch/templates/mac/*.yml
+    Found: #{RSpec.root}/lib/dirwatch/templates/mac/latex.yml (latex)
+  Searching files: #{RSpec.root}/lib/dirwatch/templates/windows/*.yml
+    Found: #{RSpec.root}/lib/dirwatch/templates/windows/latex.yml (latex)
+  \033[1mlatex\033[0m (linux, \033[1mmac\033[0m, windows)
 EOT
     it_behaves_like 'os specific list', small, large
   end
@@ -54,17 +56,18 @@ EOT
     before { stub_host_os :windows }
     small = <<-EOT
 All available templates:
-  latex (mac, linux)
+  \033[1mlatex\033[0m (linux, mac, \033[1mwindows\033[0m)
 EOT
     large = <<-EOT
 Operating system: windows
 All available templates:
-  Searching files: #{RSpec.root}/lib/dirwatch/templates/windows/*.yml
-  Searching files: #{RSpec.root}/lib/dirwatch/templates/mac/*.yml
-    Found: #{RSpec.root}/lib/dirwatch/templates/mac/latex.yml (latex)
   Searching files: #{RSpec.root}/lib/dirwatch/templates/linux/*.yml
     Found: #{RSpec.root}/lib/dirwatch/templates/linux/latex.yml (latex)
-  latex (mac, linux)
+  Searching files: #{RSpec.root}/lib/dirwatch/templates/mac/*.yml
+    Found: #{RSpec.root}/lib/dirwatch/templates/mac/latex.yml (latex)
+  Searching files: #{RSpec.root}/lib/dirwatch/templates/windows/*.yml
+    Found: #{RSpec.root}/lib/dirwatch/templates/windows/latex.yml (latex)
+  \033[1mlatex\033[0m (linux, mac, \033[1mwindows\033[0m)
 EOT
     it_behaves_like 'os specific list', small, large
   end

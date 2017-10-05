@@ -1,4 +1,4 @@
-RSpec.shared_examples "a linux matcher" do |os|
+RSpec.shared_examples 'a linux matcher' do |os|
   it(os ? "matches the linux #{os.inspect}" : 'matches a linux') do
     stub_host_os os if os
     expect(subject.operating_system).to eq :linux
@@ -9,7 +9,7 @@ RSpec.shared_examples "a linux matcher" do |os|
   end
 end
 
-RSpec.shared_examples "a mac matcher" do |os|
+RSpec.shared_examples 'a mac matcher' do |os|
   it(os ? "matches the mac #{os.inspect}" : 'matches a mac') do
     stub_host_os os if os
     expect(subject.operating_system).to eq :mac
@@ -20,7 +20,7 @@ RSpec.shared_examples "a mac matcher" do |os|
   end
 end
 
-RSpec.shared_examples "a windows matcher" do |os|
+RSpec.shared_examples 'a windows matcher' do |os|
   it(os ? "matches the windows #{os.inspect}" : 'matches a windows') do
     stub_host_os os if os
     expect(subject.operating_system).to eq :windows
@@ -31,10 +31,10 @@ RSpec.shared_examples "a windows matcher" do |os|
   end
 end
 
-RSpec.shared_examples "an unknown matcher" do |os|
+RSpec.shared_examples 'an unknown matcher' do |os|
   it(os ? "matches the unknown os #{os.inspect}" : 'matches an unknown os') do
     stub_host_os os if os
-    error = "The operating system #{os} is not supported. Only windows, mac, linux"
+    error = "The operating system #{os} is not supported. Only linux, mac, windows"
     [
       :operating_system,
       :fetch,
@@ -61,21 +61,21 @@ RSpec.describe Dirwatch::OsFetcher do
   subject { described_class }
   # linux
   %w(linux).each do |os|
-    it_behaves_like "a linux matcher", os
+    it_behaves_like 'a linux matcher', os
   end
 
   # mac
   %w(darwin mac\ os).each do |os|
-    it_behaves_like "a mac matcher", os
+    it_behaves_like 'a mac matcher', os
   end
 
   # windows
   %w(mswin win32 dos mingw cygwin).each do |os|
-    it_behaves_like "a windows matcher", os
+    it_behaves_like 'a windows matcher', os
   end
 
   # unsupported
   %w(solaris bsd unknown).each do |os|
-    it_behaves_like "an unknown matcher", os
+    it_behaves_like 'an unknown matcher', os
   end
 end

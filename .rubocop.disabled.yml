@@ -127,3 +127,8 @@ Style/SymbolArray:
   Description: 'Use %i or %I for arrays of symbols.'
   StyleGuide: '#percent-i'
   Enabled: false
+
+Lint/AssignmentInCondition:
+  Description: "Don't use assignment in conditions."
+  StyleGuide: '#safe-assignment-in-condition'
+  Enabled: false

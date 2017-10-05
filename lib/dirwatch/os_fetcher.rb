@@ -6,7 +6,7 @@ module Dirwatch
       WINDOWS = :windows,
       MAC     = :mac,
       LINUX   = :linux,
-    ].freeze
+    ].sort.freeze
 
     class << self
       def operating_system
