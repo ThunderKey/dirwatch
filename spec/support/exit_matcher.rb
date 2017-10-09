@@ -19,18 +19,31 @@ RSpec::Matchers.define :call_exit_with do |expected|
     @exit_status == expected
   end
 
+  match_when_negated do
+    @exit_status = exit_status(&actual)
+    !@exit_status.nil? && @exit_status != expected
+  end
+
   failure_message do
-    <<-EOT
+    if @exit_status
+      <<-EOT
 expected: exit status == #{expected}
      got:                #{@exit_status}
 EOT
+    else
+      "expected the exit status to match #{expected} but exit was not called"
+    end
   end
 
   failure_message_when_negated do
-    <<-EOT
+    if @exit_status
+      <<-EOT
 expected: exit status != #{expected}
      got:                #{@exit_status}
 EOT
+    else
+      "expected the exit status to not match #{expected} but exit was not called"
+    end
   end
 end
 
