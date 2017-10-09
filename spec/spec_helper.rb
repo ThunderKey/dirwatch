@@ -16,6 +16,8 @@
 
 require 'simplecov'
 
+SimpleCov.command_name 'rspec'
+
 require_relative '../lib/dirwatch'
 
 Dir[File.join File.dirname(__FILE__), 'support/**/*.rb'].each {|f| require f }
