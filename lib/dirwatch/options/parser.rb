@@ -48,7 +48,7 @@ module Dirwatch
 
           opts.on '-h', '--help', 'Show this help message' do
             puts opts
-            throw :exit
+            throw :exit, 0
           end
 
           add_alternatives opts, @alternatives
@@ -95,7 +95,7 @@ module Dirwatch
           opts.on '--version', 'Show the version' do
             require 'dirwatch/version'
             puts "dirwatch #{Dirwatch::VERSION}"
-            throw :exit
+            throw :exit, 0
           end
         end
       end
