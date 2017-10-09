@@ -5,8 +5,6 @@ RSpec.configure do
       when :linux   then 'linux'
       when :mac     then 'darwin'
       when :windows then 'mswin'
-      else
-        raise "Unknown os #{os}"
       end
     end
 
