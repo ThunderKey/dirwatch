@@ -1,6 +1,6 @@
 RSpec.configure do
   def run *args
-    Dirwatch.run_from_args args
+    Dirwatch.console.run args
   end
 
   def run_init *args

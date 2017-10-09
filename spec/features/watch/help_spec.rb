@@ -11,19 +11,19 @@ Other Methods:
 EOT
 
   it 'with --help' do
-    expect { run '--help' }.to throw_symbol(:exit, 0)
+    expect { run '--help' }.to exit_with(0)
       .and output(help_message).to_stdout
       .and not_output.to_stderr
   end
 
   it 'with -h' do
-    expect { run '-h' }.to throw_symbol(:exit, 0)
+    expect { run '-h' }.to exit_with(0)
       .and output(help_message).to_stdout
       .and not_output.to_stderr
   end
 
   it 'too many arguments' do
-    expect { run 'arg1', 'arg2' }.to throw_symbol(:exit, 1)
+    expect { run 'arg1', 'arg2' }.to exit_with(1)
       .and output(help_message).to_stdout
       .and output(<<-EOT).to_stderr
 Unknown arguments: "arg1", "arg2"

@@ -1,12 +1,5 @@
 #!/usr/bin/env ruby
 
 require 'dirwatch'
-begin
-  status = catch :exit do
-    Dirwatch.run_from_args ARGV
-  end
-  exit status if status
-rescue Dirwatch::FileNotFoundError => e
-  puts "Could not find the file #{e.filename}"
-  exit 1
-end
+
+Dirwatch.console.run ARGV
