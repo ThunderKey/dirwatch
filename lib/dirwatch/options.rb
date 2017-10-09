@@ -7,14 +7,14 @@ module Dirwatch
       parser = Parser.from_args args
       parser.parse! args
 
-      new parser.method, parser.options.to_h
+      new parser.action, parser.options.to_h
     end
 
-    attr_reader :method, :options
+    attr_reader :action, :options
 
-    def initialize method, options
-      @method = method.to_sym
-      @options = send "#{@method}_options", options
+    def initialize action, options
+      @action = action.to_sym
+      @options = send "#{@action}_options", options
     end
 
     def to_h

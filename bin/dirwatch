@@ -2,7 +2,10 @@
 
 require 'dirwatch'
 begin
-  Dirwatch.run_from_args ARGV
+  status = catch :exit do
+    Dirwatch.run_from_args ARGV
+  end
+  exit status if status
 rescue Dirwatch::FileNotFoundError => e
   puts "Could not find the file #{e.filename}"
   exit 1

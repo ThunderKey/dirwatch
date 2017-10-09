@@ -15,24 +15,22 @@ module Dirwatch
         end
       end
 
-      attr_reader :options, :method
+      attr_reader :options
 
-      def initialize alternatives, method
+      def initialize alternatives
         @alternatives = alternatives
-        @method = method
       end
 
       def parse! args
         build.parse! args
-        @method = :exit if options.exit
-      end
-
-      def exit?
-        method == :exit
       end
 
       def command_name
         self.class.command_name
+      end
+
+      def action
+        self.class.action
       end
 
       private
@@ -50,7 +48,7 @@ module Dirwatch
 
           opts.on '-h', '--help', 'Show this help message' do
             puts opts
-            options.exit = true
+            throw :exit
           end
 
           add_alternatives opts, @alternatives
@@ -69,24 +67,21 @@ module Dirwatch
         $stderr.puts "Unknown arguments: #{args.map(&:inspect).join(', ')}"
         $stderr.puts "Allowed optional arguments: #{limit}"
         puts @parser
-        @method = :exit
+        throw :exit, 1
       end
     end
 
     class WatchParser < Parser
       @command_name = "#{Parser::COMMAND_NAME} [options] [directory]"
+      @action = :watch
       class << self
-        attr_reader :command_name
-      end
-
-      def initialize alternatives
-        super alternatives, :watch
+        attr_reader :command_name, :action
       end
 
       def parse! args
         super
         limit_number_of_args 1, args
-        options.directory = args.shift if args.any? && !exit?
+        options.directory = args.shift if args.any?
       end
 
       private
@@ -100,7 +95,7 @@ module Dirwatch
           opts.on '--version', 'Show the version' do
             require 'dirwatch/version'
             puts "dirwatch #{Dirwatch::VERSION}"
-            options.exit = true
+            throw :exit
           end
         end
       end
@@ -108,18 +103,15 @@ module Dirwatch
 
     class InitParser < Parser
       @command_name = "#{Parser::COMMAND_NAME} init [options] [template]"
+      @action = :init
       class << self
-        attr_reader :command_name
-      end
-
-      def initialize alternatives
-        super alternatives, :init
+        attr_reader :command_name, :action
       end
 
       def parse! args
         super
         limit_number_of_args 1, args
-        options.template = args.shift if args.any? && !exit?
+        options.template = args.shift if args.any?
       end
 
       private

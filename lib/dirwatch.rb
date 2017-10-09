@@ -6,7 +6,7 @@ module Dirwatch
   class << self
     def run_from_args args
       options = Options.from_args(args)
-      send "run_#{options.method}", options
+      send "run_#{options.action}", options
     end
 
     private
