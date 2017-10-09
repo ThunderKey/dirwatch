@@ -32,10 +32,11 @@ EOT
   end
 
   it 'es executed correctly from the command line' do
-    stdout, stderr, status = Open3.capture3 "#{RSpec.root.join('bin', 'dirwatch')} testarg1 testarg2 testarg3"
+    cmd = "#{RSpec.root.join('bin', 'dirwatch')} arg1 arg2 arg3"
+    stdout, stderr, status = Open3.capture3 cmd
     expect(stdout).to eq help_message
     expect(stderr).to eq <<-EOT
-Unknown arguments: "testarg1", "testarg2", "testarg3"
+Unknown arguments: "arg1", "arg2", "arg3"
 Allowed optional arguments: 1
 EOT
     expect(status.exitstatus).to eq 1
