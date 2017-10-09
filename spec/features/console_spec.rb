@@ -11,4 +11,17 @@ RSpec.describe 'Console' do
       load RSpec.root.join('bin', 'dirwatch')
     end
   end
+
+  [
+    0,
+    1,
+    2,
+    100,
+  ].each do |exit_code|
+    it "exits with the code #{exit_code}" do
+      expect(Dirwatch).to receive(:run_from_args).with([]).and_throw :exit, exit_code
+      stub_const 'ARGV', []
+      expect { load RSpec.root.join('bin', 'dirwatch') }.to exit_with exit_code
+    end
+  end
 end
