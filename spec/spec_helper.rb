@@ -16,6 +16,8 @@
 
 require 'simplecov'
 
+require 'open3'
+
 SimpleCov.command_name 'rspec'
 
 require_relative '../lib/dirwatch'
