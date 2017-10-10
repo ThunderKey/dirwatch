@@ -19,15 +19,15 @@ module Dirwatch
       watcher.start
 
       begin
-        sleep
+        watcher.wait_for_stop
       rescue Interrupt
         raise
       ensure
-        stop_watcher
+        stop_watcher watcher
       end
     end
 
-    def stop_watcher
+    def stop_watcher watcher
       watcher.stop
     end
 
@@ -56,7 +56,7 @@ module Dirwatch
 
     private
 
-    def stop_watcher
+    def stop_watcher watcher
       puts 'shutting down...'
       super
     end

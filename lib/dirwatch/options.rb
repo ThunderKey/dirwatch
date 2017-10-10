@@ -26,7 +26,7 @@ module Dirwatch
       super
     end
 
-    def respond_to_missing? m
+    def respond_to_missing? m, include_private = false
       (@options && @options.key?(m)) || super
     end
 

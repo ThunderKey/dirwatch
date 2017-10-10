@@ -27,10 +27,14 @@ module Dirwatch
       end
     end
 
+    def wait_for_stop
+      @threads.each(&:join)
+    end
+
     def stop
       raise 'not started' unless @threads
       @stop = true
-      @threads.each(&:join)
+      wait_for_stop
     end
 
     def files
