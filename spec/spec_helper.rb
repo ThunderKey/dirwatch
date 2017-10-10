@@ -22,6 +22,10 @@ SimpleCov.command_name 'rspec'
 
 require_relative '../lib/dirwatch'
 
+# because they are lazyloaded
+require_relative '../lib/dirwatch/watcher'
+require_relative '../lib/dirwatch/templates'
+
 Dir[File.join File.dirname(__FILE__), 'support/**/*.rb'].each {|f| require f }
 
 RSpec.configure do |config|
