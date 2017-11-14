@@ -11,6 +11,7 @@ module Dirwatch
       raise FileNotFoundError, filename unless File.exist? filename
       settings = new
       config = YAML.load_file(filename).symbolize_keys
+      raise FileEmptyError, filename unless config
       settings.import_config config, options.directory
       settings
     end

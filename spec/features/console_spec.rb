@@ -27,7 +27,7 @@ RSpec.describe 'Console' do
     expect_any_instance_of(Dirwatch::Executor).to receive(:run).and_raise Dirwatch::FileNotFoundError, 'my/test/file.txt'
     expect do
       expect { run }.to exit_with 1
-    end.to output(<<-EOT).to_stdout.and not_output.to_stderr
+    end.to not_output.to_stdout.and output(<<-EOT).to_stderr
 Could not find the file "my/test/file.txt"
 EOT
   end

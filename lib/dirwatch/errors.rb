@@ -2,7 +2,15 @@ module Dirwatch
   class FileNotFoundError < IOError
     attr_reader :filename
     def initialize filename, msg = nil
-      super msg || "Could not find the configuration file #{filename}"
+      super msg || "Could not find the file #{filename}"
+      @filename = filename
+    end
+  end
+
+  class FileEmptyError < IOError
+    attr_reader :filename
+    def initialize filename, msg = nil
+      super msg || "The file file #{filename} is empty"
       @filename = filename
     end
   end
