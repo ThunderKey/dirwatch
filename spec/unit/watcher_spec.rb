@@ -27,4 +27,59 @@ RSpec.describe Dirwatch::Watcher do
       .and not_output.to_stdout
       .and output(%Q{The file "./.dirwatch.yml" is empty\n}).to_stderr
   end
+
+  context 'with an invalid file' do
+    it 'aborts without a file_match' do
+      create_settings <<-EOT
+mytest: {}
+EOT
+      expect { run }.to exit_with(1)
+        .and not_output.to_stdout
+        .and output(%Q{file_match must be set\n}).to_stderr
+    end
+
+    it 'aborts without a file_match' do
+      create_settings <<-EOT
+mytest:
+  file_match: "*.txt"
+EOT
+      expect { run }.to exit_with(1)
+        .and not_output.to_stdout
+        .and output(%Q{interval must be set\n}).to_stderr
+    end
+
+    it 'aborts without a file_match' do
+      create_settings <<-EOT
+mytest:
+  file_match: "*.txt"
+  interval: 10
+EOT
+      expect { run }.to exit_with(1)
+        .and not_output.to_stdout
+        .and output(%Q{Script needs to be a string or a list of strings: nil\n}).to_stderr
+    end
+  end
+
+  it 'calls the watcher correctly' do
+    create_settings <<-EOT
+mytest:
+  file_match: "*.txt"
+  interval: 10
+  script: echo test
+EOT
+    expect_any_instance_of(Dirwatch::Watcher).to receive(:start) do |watcher|
+      watch_settings = watcher.settings.watch_settings
+      {
+        directory:  './',
+        file_match: '*.txt',
+        interval:   10,
+        scripts:    ['echo test'],
+      }.each do |variable, expected_value|
+        expect(watcher.settings.watch_settings.map {|s| s.send variable }).to eq [expected_value]
+      end
+    end
+    expect_any_instance_of(Dirwatch::Watcher).to receive(:stop).and_return nil
+    expect_any_instance_of(Dirwatch::Watcher).to receive(:wait_for_stop).and_return nil
+    expect { run }.to output("shutting down...\n").to_stdout.and not_output.to_stderr
+  end
 end

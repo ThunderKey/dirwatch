@@ -49,11 +49,8 @@ module Dirwatch
         super
       end
       exit status if status
-    rescue Dirwatch::FileNotFoundError => e
-      $stderr.puts "Could not find the file #{e.filename.inspect}"
-      exit 1
-    rescue Dirwatch::FileEmptyError => e
-      $stderr.puts "The file #{e.filename.inspect} is empty"
+    rescue Dirwatch::UserFriendlyError => e
+      $stderr.puts e.user_friendly_message
       exit 1
     end
 

@@ -3,6 +3,7 @@ require_relative 'settings'
 module Dirwatch
   class Watcher
     attr_reader :options
+    attr_reader :settings
 
     def initialize options
       @options = options

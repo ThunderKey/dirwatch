@@ -1,18 +1,32 @@
 module Dirwatch
+  module UserFriendlyError
+    def user_friendly_message
+      message
+    end
+  end
+
   class FileNotFoundError < IOError
+    include UserFriendlyError
+
     attr_reader :filename
     def initialize filename, msg = nil
-      super msg || "Could not find the file #{filename}"
+      super msg || "Could not find the file #{filename.inspect}"
       @filename = filename
     end
   end
 
   class FileEmptyError < IOError
+    include UserFriendlyError
+
     attr_reader :filename
     def initialize filename, msg = nil
-      super msg || "The file file #{filename} is empty"
+      super msg || "The file #{filename.inspect} is empty"
       @filename = filename
     end
+  end
+
+  class InvalidValueError < StandardError
+    include UserFriendlyError
   end
 
   class TemplateNotFoundError < StandardError
