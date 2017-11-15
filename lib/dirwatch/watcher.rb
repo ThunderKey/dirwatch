@@ -51,8 +51,9 @@ module Dirwatch
         watch_settings.each.with_index do |ws, i|
           change_time = ws.files.map {|f| File.ctime f }.max
           if change_time != change_times[i]
+            puts "Changed: #{ws.key}" if options.verbose
             change_times[i] = change_time
-            ws.exec_scripts
+            ws.exec_scripts options.verbose
           end
         end
 

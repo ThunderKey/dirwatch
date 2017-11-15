@@ -21,11 +21,13 @@ module Dirwatch
         Dir[files_path]
       end
 
-      def exec_scripts
+      def exec_scripts verbose
         @scripts.each do |script|
           if script =~ / & *\z/
+            puts "  Call #{script.inspect} in background" if verbose
             system script
           else
+            puts "  Call #{script.inspect} in foreground" if verbose
             output = `#{script}`
             unless $CHILD_STATUS.successful?
               raise "The command \"#{script}\" failed with: #{output}"
