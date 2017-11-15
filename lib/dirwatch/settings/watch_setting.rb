@@ -29,7 +29,7 @@ module Dirwatch
           else
             puts "  Call #{script.inspect} in foreground" if verbose
             output = `#{script}`
-            unless $CHILD_STATUS.successful?
+            unless $CHILD_STATUS.success?
               raise "The command \"#{script}\" failed with: #{output}"
             end
           end
