@@ -48,7 +48,7 @@ module Dirwatch
       status = catch :exit do
         super
       end
-      exit status if status
+      exit status || 0
     rescue Dirwatch::UserFriendlyError => e
       $stderr.puts e.user_friendly_message
       exit 1

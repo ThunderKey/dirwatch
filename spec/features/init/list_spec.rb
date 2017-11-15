@@ -1,12 +1,16 @@
 RSpec.shared_examples 'os specific list' do |small_output, large_output|
   it 'lists the templates' do
-    expect { run_init '--list' }.to output(small_output).to_stdout.and not_output.to_stderr
+    expect { run_init '--list' }.to exit_with(0)
+      .and output(small_output).to_stdout
+      .and not_output.to_stderr
   end
 
   it 'lists the templates verbosely' do
-    expect { run_init '--list', '--verbose' }.to output(large_output).to_stdout
+    expect { run_init '--list', '--verbose' }.to exit_with(0)
+      .and output(large_output).to_stdout
       .and not_output.to_stderr
-    expect { run_init '--list', '-v' }.to output(large_output).to_stdout
+    expect { run_init '--list', '-v' }.to exit_with(0)
+      .and output(large_output).to_stdout
       .and not_output.to_stderr
   end
 end

@@ -82,6 +82,8 @@ EOT
     end
     expect_any_instance_of(Dirwatch::Watcher).to receive(:stop).and_return nil
     expect_any_instance_of(Dirwatch::Watcher).to receive(:wait_for_stop).and_return nil
-    expect { run }.to output("shutting down...\n").to_stdout.and not_output.to_stderr
+    expect { run }.to exit_with(0)
+      .and output("shutting down...\n").to_stdout
+      .and not_output.to_stderr
   end
 end

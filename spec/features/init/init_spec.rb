@@ -2,10 +2,12 @@ RSpec.shared_examples 'os specific default template creation' do |os, content|
   before { stub_host_os os }
   it "creates a default template for #{os}" do
     expect(File.exist?(config_file)).to be false
-    expect { scoped_run_init }.to output(<<-EOT).to_stdout.and not_output.to_stderr
+    expect { scoped_run_init }.to exit_with(0)
+      .and output(<<-EOT).to_stdout
 creating latex
   \e[32mcreated        \e[0m .dirwatch.yml
 EOT
+      .and not_output.to_stderr
     expect(File.exist?(config_file)).to be true
     expect(File.read(config_file)).to eq content
   end
@@ -13,10 +15,12 @@ EOT
   ['-v', '--verbose'].each do |v|
     it "creates a default template in #{v} mode for #{os}" do
       expect(File.exist?(config_file)).to be false
-      expect { scoped_run_init v }.to output(<<-EOT).to_stdout.and not_output.to_stderr
+      expect { scoped_run_init v }.to exit_with(0)
+        .and output(<<-EOT).to_stdout
 creating latex
   \e[32mcreated        \e[0m .dirwatch.yml
 EOT
+        .and not_output.to_stderr
       expect(File.exist?(config_file)).to be true
       expect(File.read(config_file)).to eq content
     end

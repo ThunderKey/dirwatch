@@ -53,7 +53,9 @@ RSpec.describe 'dirwatch watch options' do
       expect(Dirwatch::Watcher).to receive(:new)
         .with(an_option_with(:watch, options))
         .and_return watcher_stub
-      expect { run(*args) }.to output("shutting down...\n").to_stdout.and not_output.to_stderr
+      expect { run(*args) }.to exit_with(0)
+        .and output("shutting down...\n").to_stdout
+        .and not_output.to_stderr
     end
   end
 end
