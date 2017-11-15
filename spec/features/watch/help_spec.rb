@@ -31,7 +31,7 @@ Allowed optional arguments: 1
 EOT
   end
 
-  it 'es executed correctly from the command line' do
+  it 'is executed correctly from the command line' do
     cmd = "#{RSpec.root.join('bin', 'dirwatch')} arg1 arg2 arg3"
     stdout, stderr, status = Open3.capture3 cmd
     expect(stdout).to eq help_message
