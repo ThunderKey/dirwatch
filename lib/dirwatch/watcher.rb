@@ -46,15 +46,13 @@ module Dirwatch
 
     def run interval, watch_settings
       change_times = []
-      loop do
-        break if @stop
+      until @stop
         watch_settings.each.with_index do |ws, i|
           change_time = ws.files.map {|f| File.ctime f }.max
-          if change_time != change_times[i]
-            puts "Changed: #{ws.key}" if options.verbose
-            change_times[i] = change_time
-            ws.exec_scripts options.verbose
-          end
+          next if change_time == change_times[i]
+          puts "Changed: #{ws.key}" if options.verbose
+          change_times[i] = change_time
+          ws.exec_scripts options.verbose
         end
 
         break if @stop
