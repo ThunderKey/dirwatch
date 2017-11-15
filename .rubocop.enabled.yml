@@ -173,11 +173,6 @@ Style/DotPosition:
   StyleGuide: '#consistent-multi-line-chains'
   Enabled: true
 
-Style/DoubleNegation:
-  Description: 'Checks for uses of double negation (!!).'
-  StyleGuide: '#no-bang-bang'
-  Enabled: true
-
 Style/EachForSimpleLoop:
   Description: >-
                  Use `Integer#times` for a simple loop which iterates a fixed

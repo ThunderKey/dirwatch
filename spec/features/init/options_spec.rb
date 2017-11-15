@@ -70,7 +70,7 @@ RSpec.describe 'dirwatch init options' do
     it "creates the correct options for #{args.inspect}" do
       expect(Dirwatch::Templates).to receive(:create)
         .with(options)
-      expect { run_init *args }.to not_output.to_stdout.and not_output.to_stderr
+      expect { run_init(*args) }.to not_output.to_stdout.and not_output.to_stderr
     end
   end
 end

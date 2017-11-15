@@ -39,12 +39,12 @@ end
 
 class Array
   # An array is blank if it's empty
-  alias_method :blank?, :empty?
+  alias blank? empty?
 end
 
 class Hash
   # A hash is blank if it's empty
-  alias_method :blank?, :empty?
+  alias blank? empty?
 end
 
 class String

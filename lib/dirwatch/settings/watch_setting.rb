@@ -44,7 +44,7 @@ module Dirwatch
       end
 
       def to_s
-        "#<#{self.class} #{key}: #{to_h.map {|k,v| "#{k}=#{v.inspect}" }.join ' '}>"
+        "#<#{self.class} #{key}: #{to_h.map {|k, v| "#{k}=#{v.inspect}" }.join ' '}>"
       end
 
       private
@@ -73,7 +73,8 @@ module Dirwatch
         if scripts.is_a? String
           scripts = [scripts]
         elsif !scripts.is_a?(Array) || !scripts.all? {|s| s.is_a?(String) && s.present? }
-          raise InvalidValueError, "Script needs to be a string or a list of strings: #{scripts.inspect}"
+          raise InvalidValueError,
+            "Script needs to be a string or a list of strings: #{scripts.inspect}"
         end
         @scripts = scripts
       end

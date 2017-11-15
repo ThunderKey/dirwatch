@@ -128,6 +128,11 @@ Style/SymbolArray:
   StyleGuide: '#percent-i'
   Enabled: false
 
+Style/DoubleNegation:
+  Description: 'Checks for uses of double negation (!!).'
+  StyleGuide: '#no-bang-bang'
+  Enabled: false
+
 Lint/AssignmentInCondition:
   Description: "Don't use assignment in conditions."
   StyleGuide: '#safe-assignment-in-condition'
