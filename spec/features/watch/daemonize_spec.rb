@@ -1,11 +1,13 @@
-RSpec.describe 'dirwatch --daemonize' do
+RSpec.describe 'dirwatch --daemonize', with_settings: true do
+  let(:message) { "shutting down...\n" }
+
   before(:each) do
     expect_any_instance_of(Dirwatch::Watcher).to receive(:start) {}
     expect_any_instance_of(Dirwatch::Watcher).to receive(:stop) {}
     expect_any_instance_of(Dirwatch::Watcher).to receive(:wait_for_stop) {}
-  end
 
-  let(:message) { "shutting down...\n" }
+    create_default_settings
+  end
 
   context 'starts in the background' do
     let(:daemonize_message) { "running in the background... [#{Process.pid}]\n#{message}" }
