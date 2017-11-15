@@ -1,4 +1,5 @@
 require 'yaml'
+require_relative 'dirwatch/extensions'
 require_relative 'dirwatch/executors'
 require_relative 'dirwatch/options'
 require_relative 'dirwatch/errors'

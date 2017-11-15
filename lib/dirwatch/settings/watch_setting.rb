@@ -3,9 +3,10 @@ require 'English' # for CHILD_STATUS
 module Dirwatch
   class Settings
     class WatchSetting
-      attr_reader :directory, :file_match, :interval, :scripts
+      attr_reader :key, :directory, :file_match, :interval, :scripts
 
-      def initialize directory:, file_match:, interval:, scripts:
+      def initialize key, directory:, file_match:, interval:, scripts:
+        self.key = key
         self.directory = directory
         self.file_match = file_match
         self.interval = interval
@@ -33,21 +34,34 @@ module Dirwatch
         end
       end
 
+      def to_h
+        {
+          directory:  directory,
+          file_match: file_match,
+          interval:   interval,
+          scripts:    scripts,
+        }
+      end
+
       def to_s
-        variables = [:files_path, :interval, :scripts].map {|v| "#{v}=#{send(v).inspect}" }
-        "#<#{self.class} #{variables.join ' '}>"
+        "#<#{self.class} #{key}: #{to_h.map {|k,v| "#{k}=#{v.inspect}" }.join ' '}>"
       end
 
       private
 
+      def key= key
+        @key = key
+        raise InvalidValueError, 'key must be set' if @key.blank?
+      end
+
       def directory= directory
         @directory = directory
-        raise InvalidValueError, 'directory must be set' if @directory.nil? || @directory.empty?
+        raise InvalidValueError, 'directory must be set' if @directory.blank?
       end
 
       def file_match= file_match
         @file_match = file_match
-        raise InvalidValueError, 'file_match must be set' if @file_match.nil? || @file_match.empty?
+        raise InvalidValueError, 'file_match must be set' if @file_match.blank?
       end
 
       def interval= interval
@@ -58,7 +72,7 @@ module Dirwatch
       def scripts= scripts
         if scripts.is_a? String
           scripts = [scripts]
-        elsif !scripts.is_a?(Array) || scripts.any? {|s| !s.is_a? String }
+        elsif !scripts.is_a?(Array) || !scripts.all? {|s| s.is_a?(String) && s.present? }
           raise InvalidValueError, "Script needs to be a string or a list of strings: #{scripts.inspect}"
         end
         @scripts = scripts

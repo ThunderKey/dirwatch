@@ -30,8 +30,9 @@ module Dirwatch
       @watch_settings << watch_setting
     end
 
-    def add_from_config watch_setting, defaults, directory
+    def add_from_config key, watch_setting, defaults, directory
       add WatchSetting.new(
+        key,
         directory:  directory,
         file_match: watch_setting[:file_match] || defaults[:file_match],
         interval:   watch_setting[:interval]   || defaults[:interval],
@@ -53,8 +54,8 @@ module Dirwatch
           watch_data[key] = watch_setting
         end
       end
-      watch_data.each do |_key, watch_setting|
-        add_from_config watch_setting, defaults, directory
+      watch_data.each do |key, watch_setting|
+        add_from_config key, watch_setting, defaults, directory
       end
     end
   end

@@ -69,14 +69,17 @@ mytest:
 EOT
     expect_any_instance_of(Dirwatch::Watcher).to receive(:start) do |watcher|
       watch_settings = watcher.settings.watch_settings
-      {
-        directory:  './',
-        file_match: '*.txt',
-        interval:   10,
-        scripts:    ['echo test'],
-      }.each do |variable, expected_value|
-        expect(watcher.settings.watch_settings.map {|s| s.send variable }).to eq [expected_value]
-      end
+      expect(watcher.settings.watch_settings.map &:to_h).to eq [
+        {
+          directory:  './',
+          file_match: '*.txt',
+          interval:   10,
+          scripts:    ['echo test'],
+        },
+      ]
+      expect(watcher.settings.watch_settings.map &:to_s).to eq [
+        '#<Dirwatch::Settings::WatchSetting mytest: directory="./" file_match="*.txt" interval=10 scripts=["echo test"]>',
+      ]
     end
     expect_any_instance_of(Dirwatch::Watcher).to receive(:stop).and_return nil
     expect_any_instance_of(Dirwatch::Watcher).to receive(:wait_for_stop).and_return nil
