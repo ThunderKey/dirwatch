@@ -55,7 +55,7 @@ module Dirwatch
           ws.exec_scripts options.verbose
         end
 
-        break if @stop
+        break if @stop || options.once
         sleep interval
       end
     end

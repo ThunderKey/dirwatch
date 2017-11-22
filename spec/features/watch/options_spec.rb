@@ -11,41 +11,55 @@ RSpec.describe 'dirwatch watch options' do
     [] => {
       directory: './',
       daemonize: false,
+      once:      false,
       verbose:   false,
     },
     ['--verbose'] => {
       directory: './',
       daemonize: false,
+      once:      false,
       verbose:   true,
     },
     ['-v'] => {
       directory: './',
       daemonize: false,
+      once:      false,
       verbose:   true,
     },
     ['--daemonize'] => {
       directory: './',
       daemonize: true,
+      once:      false,
       verbose:   false,
     },
     ['-d'] => {
       directory: './',
       daemonize: true,
+      once:      false,
+      verbose:   false,
+    },
+    ['--once'] => {
+      directory: './',
+      daemonize: false,
+      once:      true,
       verbose:   false,
     },
     ['test_dir'] => {
       directory: 'test_dir',
       daemonize: false,
+      once:      false,
       verbose:   false,
     },
-    ['--verbose', '--daemonize', 'test_dir'] => {
+    ['--verbose', '--daemonize', '--once', 'test_dir'] => {
       directory: 'test_dir',
       daemonize: true,
+      once:      true,
       verbose:   true,
     },
-    ['test_dir', '--verbose', '--daemonize'] => {
+    ['test_dir', '--verbose', '--daemonize', '--once'] => {
       directory: 'test_dir',
       daemonize: true,
+      once:      true,
       verbose:   true,
     },
   }.each do |args, options|

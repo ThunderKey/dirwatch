@@ -40,6 +40,7 @@ module Dirwatch
       {
         directory: options.fetch(:directory, './'),
         daemonize: options.fetch(:daemonize, false),
+        once:      options.fetch(:once, false),
         verbose:   options.fetch(:verbose, false),
       }
     end

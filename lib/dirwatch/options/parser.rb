@@ -92,6 +92,10 @@ module Dirwatch
             options.daemonize = daemonize
           end
 
+          opts.on '--once', 'Run the programm only once' do |once|
+            options.once = once
+          end
+
           opts.on '--version', 'Show the version' do
             require 'dirwatch/version'
             puts "dirwatch #{Dirwatch::VERSION}"

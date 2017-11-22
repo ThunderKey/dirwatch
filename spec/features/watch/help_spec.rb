@@ -3,6 +3,7 @@ RSpec.describe 'dirwatch --help' do
 Usage: dirwatch [options] [directory]
     -v, --[no-]verbose               Print additional information
     -d, --[no-]daemonize             Run the programm as a daemon
+        --once                       Run the programm only once
         --version                    Show the version
     -h, --help                       Show this help message
 
