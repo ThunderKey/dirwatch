@@ -52,6 +52,7 @@ module Dirwatch
           end
 
           add_alternatives opts, @alternatives
+          add_version opts
         end
       end
 
@@ -60,6 +61,12 @@ module Dirwatch
         opts.separator ''
         opts.separator 'Other Methods:'
         alternatives.each {|a| opts.separator "    #{a}" }
+      end
+
+      def add_version opts
+        require 'dirwatch/version'
+        opts.separator ''
+        opts.separator "Version: #{::Dirwatch::VERSION}"
       end
 
       def limit_number_of_args limit, args
