@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dirwatch (0.0.4)
+    dirwatch (0.0.5)
 
 GEM
   remote: https://rubygems.org/
