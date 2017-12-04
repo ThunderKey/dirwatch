@@ -72,7 +72,7 @@ module Dirwatch
     end
 
     class WatchParser < Parser
-      @command_name = "#{Parser::COMMAND_NAME} [options] [directory]"
+      @command_name = "#{Parser::COMMAND_NAME} [options] [directory|file]"
       @action = :watch
       class << self
         attr_reader :command_name, :action

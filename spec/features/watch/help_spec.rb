@@ -1,6 +1,6 @@
 RSpec.describe 'dirwatch --help' do
   let(:help_message) { <<-EOT }
-Usage: dirwatch [options] [directory]
+Usage: dirwatch [options] [directory|file]
     -v, --[no-]verbose               Print additional information
     -d, --[no-]daemonize             Run the programm as a daemon
         --once                       Run the programm only once

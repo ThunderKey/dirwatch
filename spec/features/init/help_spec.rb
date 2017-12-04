@@ -8,7 +8,7 @@ Usage: dirwatch init [options] [template]
     -h, --help                       Show this help message
 
 Other Methods:
-    dirwatch [options] [directory]
+    dirwatch [options] [directory|file]
 EOT
 
   it 'with --help' do
