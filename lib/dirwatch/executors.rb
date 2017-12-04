@@ -21,7 +21,7 @@ module Dirwatch
       begin
         watcher.wait_for_stop
       rescue Interrupt
-        raise
+        exit
       ensure
         stop_watcher watcher
       end
