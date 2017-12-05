@@ -1,5 +1,5 @@
 RSpec.describe 'dirwatch --daemonize', with_settings: true do
-  let(:message) { "shutting down...\n" }
+  let(:message) { "Watching files...\nshutting down...\n" }
 
   before(:each) do
     expect_any_instance_of(Dirwatch::Watcher).to receive(:start) {}

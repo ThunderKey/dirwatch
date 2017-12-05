@@ -17,14 +17,18 @@ module Dirwatch
 
       watcher = Watcher.new options
       watcher.start
+      puts "Watching files..."
 
       begin
         watcher.wait_for_stop
       rescue Interrupt
-        exit
+        interrupted
       ensure
         stop_watcher watcher
       end
+    end
+
+    def interrupted
     end
 
     def stop_watcher watcher
@@ -59,6 +63,10 @@ module Dirwatch
     def stop_watcher watcher
       puts 'shutting down...'
       super
+    end
+
+    def interuppted
+      exit 0
     end
   end
 end

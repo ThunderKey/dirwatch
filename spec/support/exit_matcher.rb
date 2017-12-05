@@ -1,11 +1,9 @@
 module CallExitHelper
   def exit_status
-    begin
-      yield
-    rescue SystemExit => e
-      return e.status
-    end
+    yield
     nil
+  rescue SystemExit => e
+    return e.status
   end
 end
 

@@ -51,23 +51,30 @@ mytest:
   interval: 10
   script: echo test
 EOT
+    @watcher = nil
     expect_any_instance_of(Dirwatch::Watcher).to receive(:start) do |watcher|
-      expect(watcher.settings.watch_settings.map(&:to_h)).to eq [
-        {
-          directory:  './',
-          file_match: '*.txt',
-          interval:   10,
-          scripts:    ['echo test'],
-        },
-      ]
-      expect(watcher.settings.watch_settings.map(&:to_s)).to eq [
-        '#<Dirwatch::Settings::WatchSetting mytest: directory="./" file_match="*.txt" interval=10 scripts=["echo test"]>',
-      ]
+      @watcher = watcher
     end
     expect_any_instance_of(Dirwatch::Watcher).to receive(:stop).and_return nil
     expect_any_instance_of(Dirwatch::Watcher).to receive(:wait_for_stop).and_return nil
     expect { run }.to exit_with(0)
-      .and output("shutting down...\n").to_stdout
+      .and output("Watching files...\nshutting down...\n").to_stdout
       .and not_output.to_stderr
+
+    expect(@watcher).to_not eq nil
+    expect(@watcher.settings.watch_settings.map(&:to_h)).to eq [
+      {
+        directory:  './',
+        file_match: '*.txt',
+        interval:   10,
+        scripts:    ['echo test'],
+      },
+    ]
+    expect(@watcher.settings.watch_settings.map(&:to_s)).to eq [
+      'directory="./" file_match="*.txt" interval=10 scripts=["echo test"]',
+    ]
+    expect(@watcher.settings.watch_settings.map(&:inspect)).to eq [
+      '#<Dirwatch::Settings::WatchSetting mytest: directory="./" file_match="*.txt" interval=10 scripts=["echo test"]>',
+    ]
   end
 end

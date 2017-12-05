@@ -68,7 +68,7 @@ RSpec.describe 'dirwatch watch options' do
         .with(an_option_with(:watch, options))
         .and_return watcher_stub
       expect { run(*args) }.to exit_with(0)
-        .and output("shutting down...\n").to_stdout
+        .and output("Watching files...\nshutting down...\n").to_stdout
         .and not_output.to_stderr
     end
   end

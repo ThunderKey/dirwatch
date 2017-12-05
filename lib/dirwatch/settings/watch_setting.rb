@@ -45,8 +45,12 @@ module Dirwatch
         }
       end
 
+      def inspect
+        "#<#{self.class} #{key}: #{to_s}>"
+      end
+
       def to_s
-        "#<#{self.class} #{key}: #{to_h.map {|k, v| "#{k}=#{v.inspect}" }.join ' '}>"
+        to_h.map {|k, v| "#{k}=#{v.inspect}" }.join ' '
       end
 
       private

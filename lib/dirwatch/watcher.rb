@@ -21,7 +21,9 @@ module Dirwatch
 
       Thread.abort_on_exception = true
       @settings.by_interval do |interval, watch_settings|
-        watch_settings.each {|ws| puts "Watching #{ws}" }
+        if @options.verbose
+          watch_settings.each {|ws| puts "Watching #{ws}" }
+        end
         @threads << Thread.new do
           run interval, watch_settings
         end
