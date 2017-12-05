@@ -9,6 +9,8 @@ Usage: dirwatch init [options] [template]
 
 Other Methods:
     dirwatch [options] [directory|file]
+
+Version: #{Dirwatch::VERSION}
 EOT
 
   it 'with --help' do
