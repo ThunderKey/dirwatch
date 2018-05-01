@@ -1,3 +1,3 @@
 module Dirwatch
-  VERSION = Gem::Version.new '0.0.6'
+  VERSION = Gem::Version.new '0.0.7'
 end
