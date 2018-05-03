@@ -53,7 +53,7 @@ defaults:
 latex:
   file_match: '*.tex'
   script:
-    - pdflatex main.tex
+    - pdflatex -halt-on-error main.tex
     - evince main.pdf &
 EOT
 
@@ -64,7 +64,7 @@ defaults:
 latex:
   file_match: '*.tex'
   script:
-    - pdflatex main.tex
+    - pdflatex -halt-on-error main.tex
     - open main.pdf &
 EOT
 
@@ -75,7 +75,7 @@ defaults:
 latex:
   file_match: '*.tex'
   script:
-    - pdflatex.exe main.tex
+    - pdflatex.exe -halt-on-error main.tex
     - start "" "main.pdf"
 EOT
 end
