@@ -4,5 +4,5 @@ defaults:
 latex:
   file_match: '*.tex'
   script:
-    - pdflatex.exe main.tex
+    - pdflatex.exe -halt-on-error main.tex
     - start "" "main.pdf"
