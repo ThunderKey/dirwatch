@@ -4,5 +4,5 @@ defaults:
 latex:
   file_match: '*.tex'
   script:
-    - pdflatex -halt-on-error main.tex
-    - evince main.pdf &
+    - pdflatex -interaction=nonstopmode -halt-on-error --shell-escape main.tex
+    - xdg-open main.pdf
