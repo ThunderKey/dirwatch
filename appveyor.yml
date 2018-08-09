@@ -1,6 +1,11 @@
+version: 1.0.{build}-{branch}
+
+cache:
+  - vendor/bundle
+
 install:
   - set PATH=C:\Ruby22\bin;%PATH%
-  - bundle install
+  - bundle install --path vendor/bundle
 
 build: off
 
