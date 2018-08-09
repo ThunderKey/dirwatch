@@ -8,6 +8,7 @@ dist: trusty
 before_install: gem install bundler
 script:
 - bundle exec rspec
+- bundle exec rubocop
 after_script:
 - bundle exec codeclimate-test-reporter
 notifications:
