@@ -53,8 +53,8 @@ defaults:
 latex:
   file_match: '*.tex'
   script:
-    - pdflatex -halt-on-error main.tex
-    - evince main.pdf &
+    - pdflatex -interaction=nonstopmode -halt-on-error --shell-escape main.tex
+    - xdg-open main.pdf
 EOT
 
   it_behaves_like 'os specific default template creation', :mac, <<-EOT
@@ -64,8 +64,8 @@ defaults:
 latex:
   file_match: '*.tex'
   script:
-    - pdflatex -halt-on-error main.tex
-    - open main.pdf &
+    - pdflatex -interaction=nonstopmode -halt-on-error --shell-escape main.tex
+    - open main.pdf
 EOT
 
   it_behaves_like 'os specific default template creation', :windows, <<-EOT
@@ -75,7 +75,7 @@ defaults:
 latex:
   file_match: '*.tex'
   script:
-    - pdflatex.exe -halt-on-error main.tex
+    - pdflatex.exe -interaction=nonstopmode -halt-on-error --shell-escape main.tex
     - start "" "main.pdf"
 EOT
 end
