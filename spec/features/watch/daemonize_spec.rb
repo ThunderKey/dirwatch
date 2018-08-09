@@ -1,8 +1,5 @@
 RSpec.describe 'dirwatch --daemonize', with_settings: true do
   let(:message) { "Watching files...\nshutting down...\n" }
-  def windows?
-    Gem.win_platform?
-  end
 
   before(:each) do
     expect_any_instance_of(Dirwatch::Watcher).to receive(:start) {}

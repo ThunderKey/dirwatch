@@ -29,6 +29,10 @@ require_relative '../lib/dirwatch/templates'
 Dir[File.join File.dirname(__FILE__), 'support/**/*.rb'].each {|f| require f }
 
 RSpec.configure do |config|
+  def windows?
+    Gem.win_platform?
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

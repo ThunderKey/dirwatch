@@ -35,7 +35,8 @@ OUTPUT
   end
 
   it 'is executed correctly from the command line' do
-    cmd = "#{RSpec.root.join('bin', 'dirwatch')} init arg1 arg2 arg3"
+    cmd = "#{RSpec.root.join('bin', (windows? ? 'dirwatch.rb' : 'dirwatch'))} init arg1 arg2 arg3"
+    p cmd
     stdout, stderr, status = Open3.capture3 cmd
     expect(stdout).to eq help_message
     expect(stderr).to eq <<-OUTPUT
