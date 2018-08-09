@@ -4,7 +4,7 @@ require 'mkmf'
 
 module Dirwatch
   class Templates
-    TEMPLATES_DIR = File.join File.expand_path(File.dirname(__FILE__)), 'templates'
+    TEMPLATES_DIR = File.join __dir__, 'templates'
 
     class << self
       def create template:, operating_system:, verbose:, force:
@@ -16,8 +16,10 @@ module Dirwatch
 
         puts "creating #{template}"
 
-        copy_file template_path(operating_system, template_data[:filename]), '.dirwatch.yml',
-          force: force, verbose: verbose
+        copy_file template_path(operating_system, template_data[:filename]),
+          '.dirwatch.yml',
+          force: force,
+          verbose: verbose
       end
 
       def list operating_system:, verbose:

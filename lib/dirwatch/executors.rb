@@ -17,7 +17,7 @@ module Dirwatch
 
       watcher = Watcher.new options
       watcher.start
-      puts "Watching files..."
+      puts 'Watching files...'
 
       begin
         watcher.wait_for_stop
@@ -28,8 +28,7 @@ module Dirwatch
       end
     end
 
-    def interrupted
-    end
+    def interrupted() end
 
     def stop_watcher watcher
       watcher.stop
@@ -54,7 +53,7 @@ module Dirwatch
       end
       exit status || 0
     rescue Dirwatch::UserFriendlyError => e
-      $stderr.puts e.user_friendly_message
+      warn e.user_friendly_message
       exit 1
     end
 

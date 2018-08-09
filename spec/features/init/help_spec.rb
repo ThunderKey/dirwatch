@@ -1,5 +1,5 @@
 RSpec.describe 'dirwatch init --help' do
-  let(:help_message) { <<-EOT }
+  let(:help_message) { <<-OUTPUT }
 Usage: dirwatch init [options] [template]
     -v, --[no-]verbose               Print additional information
     -l, --[no-]list                  List all available templates
@@ -11,7 +11,7 @@ Other Methods:
     dirwatch [options] [directory|file]
 
 Version: #{Dirwatch::VERSION}
-EOT
+OUTPUT
 
   it 'with --help' do
     expect { run_init '--help' }.to exit_with(0)
@@ -28,20 +28,20 @@ EOT
   it 'too many arguments' do
     expect { run_init 'arg1', 'arg2' }.to exit_with(1)
       .and output(help_message).to_stdout
-      .and output(<<-EOT).to_stderr
+      .and output(<<-OUTPUT).to_stderr
 Unknown arguments: "arg1", "arg2"
 Allowed optional arguments: 1
-EOT
+OUTPUT
   end
 
   it 'is executed correctly from the command line' do
     cmd = "#{RSpec.root.join('bin', 'dirwatch')} init arg1 arg2 arg3"
     stdout, stderr, status = Open3.capture3 cmd
     expect(stdout).to eq help_message
-    expect(stderr).to eq <<-EOT
+    expect(stderr).to eq <<-OUTPUT
 Unknown arguments: "arg1", "arg2", "arg3"
 Allowed optional arguments: 1
-EOT
+OUTPUT
     expect(status.exitstatus).to eq 1
   end
 end

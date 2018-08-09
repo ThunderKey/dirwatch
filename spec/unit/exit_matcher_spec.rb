@@ -1,7 +1,7 @@
 RSpec.describe 'exit matchers' do
   error = RSpec::Expectations::ExpectationNotMetError
 
-  [:exit_with, :call_exit_with].each do |m|
+  shared_examples 'exit with test' do |m|
     context(m) do
       it 'succeeds if the exit status matches' do
         expect { exit 5 }.to send(m, 5)
@@ -10,10 +10,10 @@ RSpec.describe 'exit matchers' do
       it 'prints the correct failure message if the exit status mismatches' do
         expect do
           expect { exit 5 }.to send(m, 4)
-        end.to raise_exception error, <<-EOT
+        end.to raise_exception error, <<-RSPEC
 expected: exit status == 4
      got:                5
-EOT
+RSPEC
       end
 
       it 'prints the correct failure message if exit was not called' do
@@ -31,18 +31,22 @@ EOT
       it 'prints the correct failure message if the exit status matches' do
         expect do
           expect { exit 5 }.to_not send(m, 5)
-        end.to raise_exception error, <<-EOT
+        end.to raise_exception error, <<-RSPEC
 expected: exit status != 5
      got:                5
-EOT
+RSPEC
       end
 
       it 'prints the correct failure message if exit was not called' do
         expect do
           expect { }.to_not send(m, 4)
-        end.to raise_exception error, 'expected the exit status to not match 4 but exit was not called'
+        end.to raise_exception error
       end
     end
+  end
+
+  %i(exit_with call_exit_with).each do |m|
+    it_behaves_like 'exit with test', m
   end
 
   context 'call_exit' do

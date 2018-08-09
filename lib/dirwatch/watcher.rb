@@ -21,9 +21,7 @@ module Dirwatch
 
       Thread.abort_on_exception = true
       @settings.by_interval do |interval, watch_settings|
-        if @options.verbose
-          watch_settings.each {|ws| puts "Watching #{ws}" }
-        end
+        watch_settings.each {|ws| puts "Watching #{ws}" } if @options.verbose
         @threads << Thread.new do
           run interval, watch_settings
         end
@@ -49,16 +47,20 @@ module Dirwatch
     def run interval, watch_settings
       change_times = []
       until @stop
-        watch_settings.each.with_index do |ws, i|
-          change_time = ws.files.map {|f| File.ctime f }.max
-          next if change_time == change_times[i]
-          puts "Changed: #{ws.key}" if options.verbose
-          change_times[i] = change_time
-          ws.exec_scripts options.verbose
-        end
+        watch watch_settings, change_times
 
         break if @stop || options.once
         sleep interval
+      end
+    end
+
+    def watch watch_settings, change_times
+      watch_settings.each.with_index do |ws, i|
+        change_time = ws.files_changed_at
+        next if change_time == change_times[i]
+        puts "Changed: #{ws.key}" if options.verbose
+        change_times[i] = change_time
+        ws.exec_scripts options.verbose
       end
     end
   end

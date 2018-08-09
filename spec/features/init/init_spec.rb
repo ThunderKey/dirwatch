@@ -3,10 +3,10 @@ RSpec.shared_examples 'os specific default template creation' do |os, content|
   it "creates a default template for #{os}" do
     expect(File.exist?(config_file)).to be false
     expect { scoped_run_init }.to exit_with(0)
-      .and output(<<-EOT).to_stdout
+      .and output(<<-OUTPUT).to_stdout
 creating latex
   \e[32mcreated        \e[0m .dirwatch.yml
-EOT
+OUTPUT
       .and not_output.to_stderr
     expect(File.exist?(config_file)).to be true
     expect(File.read(config_file)).to eq content
@@ -16,10 +16,10 @@ EOT
     it "creates a default template in #{v} mode for #{os}" do
       expect(File.exist?(config_file)).to be false
       expect { scoped_run_init v }.to exit_with(0)
-        .and output(<<-EOT).to_stdout
+        .and output(<<-OUTPUT).to_stdout
 creating latex
   \e[32mcreated        \e[0m .dirwatch.yml
-EOT
+OUTPUT
         .and not_output.to_stderr
       expect(File.exist?(config_file)).to be true
       expect(File.read(config_file)).to eq content
@@ -46,7 +46,7 @@ RSpec.describe 'dirwatch init' do
     FileUtils.rm_rf tmp_dir
   end
 
-  it_behaves_like 'os specific default template creation', :linux, <<-EOT
+  it_behaves_like 'os specific default template creation', :linux, <<-YAML
 defaults:
   interval: 1
 
@@ -55,9 +55,9 @@ latex:
   script:
     - pdflatex -interaction=nonstopmode -halt-on-error --shell-escape main.tex
     - xdg-open main.pdf
-EOT
+YAML
 
-  it_behaves_like 'os specific default template creation', :mac, <<-EOT
+  it_behaves_like 'os specific default template creation', :mac, <<-YAML
 defaults:
   interval: 1
 
@@ -66,9 +66,9 @@ latex:
   script:
     - pdflatex -interaction=nonstopmode -halt-on-error --shell-escape main.tex
     - open main.pdf
-EOT
+YAML
 
-  it_behaves_like 'os specific default template creation', :windows, <<-EOT
+  it_behaves_like 'os specific default template creation', :windows, <<-YAML
 defaults:
   interval: 1
 
@@ -77,5 +77,5 @@ latex:
   script:
     - pdflatex.exe -interaction=nonstopmode -halt-on-error --shell-escape main.tex
     - start "" "main.pdf"
-EOT
+YAML
 end

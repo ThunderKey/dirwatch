@@ -71,8 +71,8 @@ module Dirwatch
 
       def limit_number_of_args limit, args
         return if args.size <= limit
-        $stderr.puts "Unknown arguments: #{args.map(&:inspect).join(', ')}"
-        $stderr.puts "Allowed optional arguments: #{limit}"
+        warn "Unknown arguments: #{args.map(&:inspect).join(', ')}"
+        warn "Allowed optional arguments: #{limit}"
         puts @parser
         throw :exit, 1
       end

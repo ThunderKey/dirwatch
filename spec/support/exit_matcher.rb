@@ -3,7 +3,7 @@ module CallExitHelper
     yield
     nil
   rescue SystemExit => e
-    return e.status
+    e.status
   end
 end
 
@@ -24,10 +24,10 @@ RSpec::Matchers.define :call_exit_with do |expected|
 
   failure_message do
     if @exit_status
-      <<-EOT
+      <<-OUTPUT
 expected: exit status == #{expected}
      got:                #{@exit_status}
-EOT
+OUTPUT
     else
       "expected the exit status to match #{expected} but exit was not called"
     end
@@ -35,10 +35,10 @@ EOT
 
   failure_message_when_negated do
     if @exit_status
-      <<-EOT
+      <<-OUTPUT
 expected: exit status != #{expected}
      got:                #{@exit_status}
-EOT
+OUTPUT
     else
       "expected the exit status to not match #{expected} but exit was not called"
     end

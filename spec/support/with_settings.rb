@@ -4,12 +4,12 @@ RSpec.configure do |config|
   end
 
   def create_default_settings file = '.dirwatch.yml'
-    create_settings <<-EOT, file
+    create_settings <<-YAML, file
 mytest1:
   file_match: "*.txt"
   interval: 5
   script: echo test
-EOT
+YAML
   end
 
   config.around(with_settings: true) do |example|

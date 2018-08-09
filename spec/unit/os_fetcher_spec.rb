@@ -35,13 +35,13 @@ RSpec.shared_examples 'an unknown matcher' do |os|
   it(os ? "matches the unknown os #{os.inspect}" : 'matches an unknown os') do
     stub_host_os os if os
     error = "The operating system #{os} is not supported. Only linux, mac, windows"
-    [
-      :operating_system,
-      :fetch,
-      :linux?,
-      :mac?,
-      :windows?,
-    ].each do |m|
+    %i(
+      operating_system
+      fetch
+      linux?
+      mac?
+      windows?
+    ).each do |m|
       expect { subject.send m }.to raise_exception Dirwatch::OsNotSupportedError, error
     end
   end

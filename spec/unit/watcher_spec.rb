@@ -14,43 +14,43 @@ RSpec.describe Dirwatch::Watcher, with_settings: true do
 
   context 'with an invalid file' do
     it 'aborts without a file_match' do
-      create_settings <<-EOT
+      create_settings <<-YAML
 mytest: {}
-EOT
+YAML
       expect { run }.to exit_with(1)
         .and not_output.to_stdout
-        .and output(%Q{file_match must be set\n}).to_stderr
+        .and output("file_match must be set\n").to_stderr
     end
 
     it 'aborts without a file_match' do
-      create_settings <<-EOT
+      create_settings <<-YAML
 mytest:
   file_match: "*.txt"
-EOT
+YAML
       expect { run }.to exit_with(1)
         .and not_output.to_stdout
-        .and output(%Q{interval must be set\n}).to_stderr
+        .and output("interval must be set\n").to_stderr
     end
 
     it 'aborts without a file_match' do
-      create_settings <<-EOT
+      create_settings <<-YAML
 mytest:
   file_match: "*.txt"
   interval: 10
-EOT
+YAML
       expect { run }.to exit_with(1)
         .and not_output.to_stdout
-        .and output(%Q{Script needs to be a string or a list of strings: nil\n}).to_stderr
+        .and output("Script needs to be a string or a list of strings: nil\n").to_stderr
     end
   end
 
   it 'calls the watcher correctly' do
-    create_settings <<-EOT
+    create_settings <<-YAML
 mytest:
   file_match: "*.txt"
   interval: 10
   script: echo test
-EOT
+YAML
     @watcher = nil
     expect_any_instance_of(Dirwatch::Watcher).to receive(:start) do |watcher|
       @watcher = watcher

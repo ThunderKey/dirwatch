@@ -1,6 +1,6 @@
 RSpec.describe 'dirwatch watch options' do
   let :watcher_stub do
-    stub = double()
+    stub = double
     expect(stub).to receive(:start)
     expect(stub).to receive(:wait_for_stop)
     expect(stub).to receive(:stop)

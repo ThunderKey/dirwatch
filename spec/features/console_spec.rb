@@ -18,17 +18,20 @@ RSpec.describe 'Console' do
     100,
   ].each do |exit_code|
     it "exits with the code #{exit_code}" do
-      expect_any_instance_of(Dirwatch::Executor).to receive(:run).with([]).and_throw :exit, exit_code
+      expect_any_instance_of(Dirwatch::Executor).to receive(:run).with([])
+        .and_throw :exit, exit_code
       expect { run }.to exit_with exit_code
     end
   end
 
   it 'displays the correct error message if a FileNotFoundError occurs' do
-    expect_any_instance_of(Dirwatch::Executor).to receive(:run).and_raise Dirwatch::FileNotFoundError, 'my/test/file.txt'
+    expect_any_instance_of(Dirwatch::Executor).to receive(:run)
+      .and_raise Dirwatch::FileNotFoundError, 'my/test/file.txt'
     expect do
       expect { run }.to exit_with 1
-    end.to not_output.to_stdout.and output(<<-EOT).to_stderr
+    end.to not_output.to_stdout
+      .and output(<<-RESULT).to_stderr
 Could not find the file "my/test/file.txt"
-EOT
+RESULT
   end
 end

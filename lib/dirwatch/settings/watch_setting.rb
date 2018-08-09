@@ -21,6 +21,10 @@ module Dirwatch
         Dir[files_path]
       end
 
+      def files_changed_at
+        files.map {|f| File.ctime f }.max
+      end
+
       def exec_scripts verbose
         @scripts.each do |script|
           if script =~ / & *\z/
@@ -29,9 +33,7 @@ module Dirwatch
           else
             puts "  Call #{script.inspect} in foreground" if verbose
             output = `#{script}`
-            unless $CHILD_STATUS.success?
-              raise "The command \"#{script}\" failed with: #{output}"
-            end
+            raise "The command \"#{script}\" failed with: #{output}" unless $CHILD_STATUS.success?
           end
         end
       end
@@ -46,7 +48,7 @@ module Dirwatch
       end
 
       def inspect
-        "#<#{self.class} #{key}: #{to_s}>"
+        "#<#{self.class} #{key}: #{self}>"
       end
 
       def to_s
