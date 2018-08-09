@@ -2,7 +2,7 @@ require_relative 'settings'
 
 unless Process.respond_to? :daemon
   module Process
-    def self.daemon nochdir, noclose
+    def self.daemon _nochdir, _noclose
       raise Dirwatch::DaemonizeNotSupportedError
     end
   end

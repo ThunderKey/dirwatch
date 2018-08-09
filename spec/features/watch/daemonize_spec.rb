@@ -22,15 +22,23 @@ RSpec.describe 'dirwatch --daemonize', with_settings: true do
       end
     end
 
+    def validate_with_daemon &block
+      expect(&block).to exit_with(0)
+        .and output("running in the background... [#{Process.pid}]\n#{message}").to_stdout
+        .and not_output.to_stderr
+    end
+
+    def validate_without_daemon &block
+      expect(&block).to exit_with(1)
+        .and not_output.to_stdout
+        .and output('Your operating system does not support daemonize').to_stderr
+    end
+
     def validate_output &block
       if windows?
-        expect(&block).to exit_with(1)
-          .and not_output.to_stdout
-          .and output('Your operating system does not support daemonize').to_stderr
+        validate_without_daemon(&block)
       else
-        expect(&block).to exit_with(0)
-          .and output("running in the background... [#{Process.pid}]\n#{message}").to_stdout
-          .and not_output.to_stderr
+        validate_with_daemon(&block)
       end
     end
 
