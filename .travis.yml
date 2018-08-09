@@ -5,6 +5,7 @@ os:
 rvm:
 - ruby-2.5.1
 dist: trusty
+cache: bundler
 before_install: gem install bundler
 script:
 - bundle exec rspec
