@@ -14,10 +14,11 @@ RSpec.describe 'dirwatch --daemonize', with_settings: true do
 
   context 'starts in the background' do
     before(:each) do
-      return if windows?
-      expect(Process).to receive(:daemon) do |nochdir, noclose|
-        expect(nochdir).to eq true
-        expect(noclose).to eq true
+      unless windows?
+        expect(Process).to receive(:daemon) do |nochdir, noclose|
+          expect(nochdir).to eq true
+          expect(noclose).to eq true
+        end
       end
     end
 
@@ -44,8 +45,7 @@ RSpec.describe 'dirwatch --daemonize', with_settings: true do
 
   context 'starts in the foreground' do
     before(:each) do
-      return if windows?
-      expect(Process).to_not receive(:daemon)
+      expect(Process).to_not receive(:daemon) unless windows?
     end
 
     it 'with --no-daemonize' do
