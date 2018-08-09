@@ -1,5 +1,8 @@
 RSpec.describe 'dirwatch --daemonize', with_settings: true do
   let(:message) { "Watching files...\nshutting down...\n" }
+  def windows?
+    Gem.win_platform?
+  end
 
   before(:each) do
     expect_any_instance_of(Dirwatch::Watcher).to receive(:start) {}
@@ -11,6 +14,7 @@ RSpec.describe 'dirwatch --daemonize', with_settings: true do
 
   context 'starts in the background' do
     before(:each) do
+      return if windows?
       expect(Process).to receive(:daemon) do |nochdir, noclose|
         expect(nochdir).to eq true
         expect(noclose).to eq true
@@ -18,7 +22,7 @@ RSpec.describe 'dirwatch --daemonize', with_settings: true do
     end
 
     def validate_output &block
-      if Gem.win_platform?
+      if windows?
         expect(&block).to exit_with(1)
           .and not_output.to_stdout
           .and output('Your operating system does not support daemonize').to_stderr
@@ -40,6 +44,7 @@ RSpec.describe 'dirwatch --daemonize', with_settings: true do
 
   context 'starts in the foreground' do
     before(:each) do
+      return if windows?
       expect(Process).to_not receive(:daemon)
     end
 
