@@ -3,6 +3,10 @@ version: 1.0.{build}-{branch}
 cache:
   - vendor/bundle
 
+environment:
+  matrix:
+    - RUBY_VERSION: 25
+
 install:
   - set PATH=C:\Ruby22\bin;%PATH%
   - bundle install --path vendor/bundle
