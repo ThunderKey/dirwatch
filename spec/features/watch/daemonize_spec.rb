@@ -31,7 +31,7 @@ RSpec.describe 'dirwatch --daemonize', with_settings: true do
     def validate_without_daemon &block
       expect(&block).to exit_with(1)
         .and not_output.to_stdout
-        .and output('Your operating system does not support daemonize').to_stderr
+        .and output("Your operating system does not support daemonize\n").to_stderr
     end
 
     def validate_output &block
