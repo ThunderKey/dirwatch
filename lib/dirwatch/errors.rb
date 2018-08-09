@@ -5,6 +5,14 @@ module Dirwatch
     end
   end
 
+  class DaemonizeNotSupportedError < StandardError
+    include UserFriendlyError
+
+    def initialize message = 'Your operating system does not support daemonize'
+      super message
+    end
+  end
+
   class FileNotFoundError < IOError
     include UserFriendlyError
 

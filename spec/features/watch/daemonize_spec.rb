@@ -10,8 +10,6 @@ RSpec.describe 'dirwatch --daemonize', with_settings: true do
   end
 
   context 'starts in the background' do
-    let(:daemonize_message) { "running in the background... [#{Process.pid}]\n#{message}" }
-
     before(:each) do
       expect(Process).to receive(:daemon) do |nochdir, noclose|
         expect(nochdir).to eq true
@@ -19,16 +17,24 @@ RSpec.describe 'dirwatch --daemonize', with_settings: true do
       end
     end
 
+    def validate_output &block
+      if Gem.win_platform?
+        expect(&block).to exit_with(1)
+          .and not_output.to_stdout
+          .and output('Your operating system does not support daemonize').to_stderr
+      else
+        expect(&block).to exit_with(0)
+          .and output("running in the background... [#{Process.pid}]\n#{message}").to_stdout
+          .and not_output.to_stderr
+      end
+    end
+
     it 'with --daemonize' do
-      expect { run '--daemonize' }.to exit_with(0)
-        .and output(daemonize_message).to_stdout
-        .and not_output.to_stderr
+      validate_output { run '--daemonize' }
     end
 
     it 'with -d' do
-      expect { run '-d' }.to exit_with(0)
-        .and output(daemonize_message).to_stdout
-        .and not_output.to_stderr
+      validate_output { run '-d' }
     end
   end
 

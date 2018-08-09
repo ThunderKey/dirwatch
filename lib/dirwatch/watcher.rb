@@ -1,5 +1,13 @@
 require_relative 'settings'
 
+unless Process.respond_to? :daemon
+  module Process
+    def self.daemon nochdir, noclose
+      raise Dirwatch::DaemonizeNotSupportedError
+    end
+  end
+end
+
 module Dirwatch
   class Watcher
     attr_reader :options
