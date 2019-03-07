@@ -1,20 +1,34 @@
 language: ruby
 os:
-- linux
-- osx
+  - linux
+  - osx
 rvm:
-- ruby-2.5.1
+  - ruby-2.5.1
 dist: trusty
 cache: bundler
-before_install: gem install bundler
+before_install:
+  - gem install bundler
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
 script:
-- bundle exec rspec
-- bundle exec rubocop
+  - bundle exec rspec
+  - bundle exec rubocop
 after_script:
-- bundle exec codeclimate-test-reporter
+  - bundle exec codeclimate-test-reporter
 notifications:
   email:
-  - nicolasganz37+travis@gmail.com
+    - nicolasganz37+travis@gmail.com
 env:
   global:
-    secure: YKlnKnoP60fsjOB8GSaJ0LQ25BgW3wtMs0inBmiAJQox5e0qGvwLfpnrOdsef3ICP9XS93qKF5SjZMYfvuV+cVysXLZi94nkGMpOl8gM2xni1BFcUKCCUf9TDTrXG2QFvRglI7DRDMjgsRQfUl51/hMUfJAkvv5dESJQWPNstGOadswtVZfPchEKbGnTXClugIrp6OABqcRQzSYnF9FWf0bem9c1b/tFJZY5amFJ0INVe03LohtVJBq+psjPfRDPw87JgYTp/lWSsPEW6ZFJLgU7BeJEzDoiNr9yZIpntwlK1o/Oc5fLWR5xrJTVqKbO1skfYHSorLlOSyAERZcNq3NczroOzjvfdf+1tMzeu7N6t7cTsUbcf7LbHeIGDPTFY5L7Aywh2MN/q968UErYjtmmSABbFpddBumBZIFpVSvLl66m3XmfJOXdehUqlFymm0rRO6yH8VnLjanOsdWF6P4myNoFNQeVEMHfjvkXE3VxHb3XAkgMFVKv8eXNUs/D+31eo2+JnCnHBh11m9am+2nmByj7188ExSV61+zMYtXVM036eSfd1VhIXDIsS6/iX0Ecvd1m6oDLJWksr8/gl+/s8DPF1OfEsHb0idwfScGdou4Jn8FYAyD6+EwgajmTR1pE3Y2DiJHiLr9Fc514sMNtf9QBsGLbmDIz+1SYVvA=
+    - secure: YKlnKnoP60fsjOB8GSaJ0LQ25BgW3wtMs0inBmiAJQox5e0qGvwLfpnrOdsef3ICP9XS93qKF5SjZMYfvuV+cVysXLZi94nkGMpOl8gM2xni1BFcUKCCUf9TDTrXG2QFvRglI7DRDMjgsRQfUl51/hMUfJAkvv5dESJQWPNstGOadswtVZfPchEKbGnTXClugIrp6OABqcRQzSYnF9FWf0bem9c1b/tFJZY5amFJ0INVe03LohtVJBq+psjPfRDPw87JgYTp/lWSsPEW6ZFJLgU7BeJEzDoiNr9yZIpntwlK1o/Oc5fLWR5xrJTVqKbO1skfYHSorLlOSyAERZcNq3NczroOzjvfdf+1tMzeu7N6t7cTsUbcf7LbHeIGDPTFY5L7Aywh2MN/q968UErYjtmmSABbFpddBumBZIFpVSvLl66m3XmfJOXdehUqlFymm0rRO6yH8VnLjanOsdWF6P4myNoFNQeVEMHfjvkXE3VxHb3XAkgMFVKv8eXNUs/D+31eo2+JnCnHBh11m9am+2nmByj7188ExSV61+zMYtXVM036eSfd1VhIXDIsS6/iX0Ecvd1m6oDLJWksr8/gl+/s8DPF1OfEsHb0idwfScGdou4Jn8FYAyD6+EwgajmTR1pE3Y2DiJHiLr9Fc514sMNtf9QBsGLbmDIz+1SYVvA=
+    - secure: "G+8pOk+IX8Ww/YbX9qMy98aw4gQFb5hOwbfAF46DOX7lWOdalPCSWCw+d66wWd/3HRpSbQAgpeNbRp7+UJrlIlDHrU/c/IgQqjNrmIJGJ8tQMmPHVRAcimmcT2fRbLh2S52TAWSp370a639JpmNIo8JF1fpQZ+f5rFonv9WwjpCdcP1UsWh60M+isyoBGnYeUIJvBUfRUf6//h7+prrmuluq/5yB3p5UKNIqRR8OONpuJ38JLq629AK7bTsZJg5WmvvujgLZGhtwubFjP2TzhEZ46byIYayx7nZ9fFZD++8rqgykcPBVWYGMh1tDb5WXOYlBNBqIYbE7uo14uPVXl0k8RefTENOluzoXhlEaVauaL1ReMrh/RqZY6cnXFYkzS7vZlTN4FBIK1Z4PS54bHOzna5lHRFUH/Wa6647YT4u0oyNokUDuirt6I5WmH6KVOGbADeSqXZvVrYXoF+6mf+wRIWxZG9of4nDsVXZeJpy0khsGz8xrGDoAb+bS2VORG1n3sXTLfjUcjjRVChReyeryB/Xbm4S/Y8UHVM5CpEleAh0VNOVALO6kNIDB/5k+Tn8bz+GMo4r70tA/SIlraEWWHAG9OYG2JOnSB6EDUcnB2RMAh3WhNedwGjRjr5x5I+O1TiMHA9c4VSuhfgfK+pB5APQGPp49oas7g8cKnq4="
+
+addons:
+  coverity_scan:
+    project:
+      name: "ThunderKey/dirwatch"
+      description: 'Watch specific files and execute commands when any of them change'
+    notification_email: nicolas@keltec.ch
+    build_command_prepend: ""
+    build_command: "--fs-capture-search ./"
+    branch_pattern: coverity_scan
